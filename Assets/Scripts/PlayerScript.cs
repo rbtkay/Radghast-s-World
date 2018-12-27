@@ -73,7 +73,7 @@ public class PlayerScript : MonoBehaviour
             playerSpeed = 0f;
         else
             playerSpeed = 0.22f;
-            
+
         PlayerMove();
 
         Input.ResetInputAxes();
@@ -87,7 +87,6 @@ public class PlayerScript : MonoBehaviour
         float rotationZ = -Input.GetAxis("VerticalRight");
 
         Vector3 toLookAt = transform.position + new Vector3(rotationX, 0, rotationZ);
-
 
         if (rotationX > 0.8f || rotationX < -0.8f)
         {

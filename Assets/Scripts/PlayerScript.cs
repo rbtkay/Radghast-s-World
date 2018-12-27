@@ -10,14 +10,11 @@ public class PlayerScript : MonoBehaviour
     // [SerializeField] NavMeshAgent agent;
     public GameObject basicAttackPrefab;
     bool castingOwl;
-
     [SerializeField] GameObject owlSentinelPrefab;
-    GameObject owlSentinel;
-    NavMeshPath navMeshPath;
-    [SerializeField] float owlLifeTime;
     float owlLife;
+    bool testingBool;
 
-    Vector3 spawnPoint;
+    public Vector3 spawnPoint;
     bool isFiring;
 
     Animator mageAnimator;
@@ -29,7 +26,6 @@ public class PlayerScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        navMeshPath = new NavMeshPath();
         spawnPoint = transform.position;
         fireTime = Time.timeSinceLevelLoad;
         isFiring = false;
@@ -40,14 +36,11 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         // Debug.Log("haha on you !");
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
             if (!GameObject.FindGameObjectWithTag("OwlTag"))
             {
-                owlSentinel = GameObject.Instantiate(owlSentinelPrefab, transform.position, Quaternion.identity);
-                NavMeshAgent owlAgent = owlSentinel.GetComponent<NavMeshAgent>();
-
-                owlAgent.SetDestination(spawnPoint);
+                GameObject owlSentinel = GameObject.Instantiate(owlSentinelPrefab, transform.position, Quaternion.identity);
             }
             else
             {
@@ -69,10 +62,29 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Joystick1Button0) && !testingBool)
+        {
+            testingBool = true;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button0) && testingBool)
+        {
+            testingBool = false;
+        }
+
+
         if (isFiring)
             playerSpeed = 0f;
         else
-            playerSpeed = 0.22f;
+
+        {
+            if (!testingBool)
+                playerSpeed = 0.235f;
+
+            else if (testingBool)
+                playerSpeed = 1.5f;
+
+        }
 
         PlayerMove();
 
@@ -166,12 +178,6 @@ public class PlayerScript : MonoBehaviour
     {
         Vector3 ballPosition = transform.position + transform.forward * 5f;
         GameObject basicAttack = GameObject.Instantiate(basicAttackPrefab, ballPosition + new Vector3(0, 5f, 0), transform.rotation);
-
-    }
-
-    private void KillOwl()
-    {
-        Destroy(owlSentinel);
     }
 
     void FootR()

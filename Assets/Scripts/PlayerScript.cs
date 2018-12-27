@@ -36,7 +36,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         // Debug.Log("haha on you !");
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
             if (!GameObject.FindGameObjectWithTag("OwlTag"))
             {

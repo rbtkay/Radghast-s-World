@@ -76,6 +76,7 @@ public class PlayerScript : MonoBehaviour
         if (isFiring)
             playerSpeed = 0f;
         else
+
         {
             if (!testingBool)
                 playerSpeed = 0.235f;
@@ -84,8 +85,6 @@ public class PlayerScript : MonoBehaviour
                 playerSpeed = 1.5f;
 
         }
-
-
 
         PlayerMove();
 
@@ -100,7 +99,6 @@ public class PlayerScript : MonoBehaviour
         float rotationZ = -Input.GetAxis("VerticalRight");
 
         Vector3 toLookAt = transform.position + new Vector3(rotationX, 0, rotationZ);
-
 
         if (rotationX > 0.8f || rotationX < -0.8f)
         {

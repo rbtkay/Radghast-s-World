@@ -7,6 +7,7 @@ public class PigScript : MonoBehaviour
 {
 
     NavMeshAgent pigAgent;
+    Vector3 currentPosition;
     [SerializeField] GameObject player;
 
     [SerializeField] float distanceCharge;
@@ -38,7 +39,7 @@ public class PigScript : MonoBehaviour
             if (Vector3.Distance(player.transform.position, transform.position) > distanceCharge && !isCharging)
             {
                 FollowMage();
-                Debug.Log("distance");
+                // Debug.Log("distance");
             }
             else if (!isCharging)
             {
@@ -47,13 +48,13 @@ public class PigScript : MonoBehaviour
                 isCharging = true;
                 transform.LookAt(player.transform.position);
                 Invoke("Charging", 2);
-                Debug.Log("Charging");
+                // Debug.Log("Charging");
             }
         }
         else
         {
             FollowMage();
-            Debug.Log("Waiting for cooldown");
+            // Debug.Log("Waiting for cooldown");
         }
     }
 

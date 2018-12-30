@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - OwlTag
+  - PigTag
+  - SaveTag
+  - ResumeTag
   layers:
   - Default
   - TransparentFX

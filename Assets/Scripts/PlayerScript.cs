@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class PlayerScript : MonoBehaviour
 {
+    [SerializeField] Game gameScript;
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
     [SerializeField] int health;
-    // [SerializeField] NavMeshAgent agent;
+
     public GameObject basicAttackPrefab;
     bool castingOwl;
     [SerializeField] GameObject owlSentinelPrefab;
@@ -24,6 +25,7 @@ public class PlayerScript : MonoBehaviour
 
     void Start()
     {
+        // gameScript = new Game();
         spawnPoint = transform.position;
         fireTime = Time.timeSinceLevelLoad;
         isFiring = false;
@@ -33,7 +35,6 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log("haha on you !");Joystick1Button9
         if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
             if (!GameObject.FindGameObjectWithTag("OwlTag"))
@@ -83,7 +84,11 @@ public class PlayerScript : MonoBehaviour
                 playerSpeed = 1.5f;
         }
 
-        PlayerMove();
+        if (!gameScript.IsGamePaused())
+        {
+            PlayerMove();
+        }
+
 
         Input.ResetInputAxes();
     }
@@ -124,7 +129,6 @@ public class PlayerScript : MonoBehaviour
         }
 
         // transform.position += new Vector3(movementX * playerSpeed, 0, movementZ * playerSpeed);
-
 
 
         /////////////////////////////////////////////////////////////////
@@ -178,23 +182,9 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    void FootR()
-    {
-        // print("do nothing");
-    }
+    void FootL() { }
 
-    void FootL()
-    {
-        // print("do nothing");
-    }
+    void NewEvent() { }
 
-    void NewEvent()
-    {
-
-    }
-
-    void Hit()
-    {
-
-    }
+    void Hit() { }
 }

@@ -8,6 +8,7 @@ public class PigScript : MonoBehaviour
     NavMeshAgent pigAgent;
     GameObject player;
     [SerializeField] GameObject pigBlood;
+
     [SerializeField] float distanceCharge;
     [SerializeField] int health;
     Animator pigAnimator;

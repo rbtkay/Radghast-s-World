@@ -6,10 +6,11 @@ TagManager:
   tags:
   - OwlTag
   - BasicAttack
-  - Ennemy
   - PigTag
   - SaveTag
   - ResumeTag
+  - GameTag
+  - EnemySpawnTag
   layers:
   - Default
   - TransparentFX

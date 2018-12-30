@@ -5,7 +5,8 @@ using UnityEngine.AI;
 
 public class PlayerScript : MonoBehaviour
 {
-    [SerializeField] Game gameScript;
+    /* [SerializeField] */ GameObject game;
+
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
     [SerializeField] int health;
@@ -25,7 +26,6 @@ public class PlayerScript : MonoBehaviour
 
     void Start()
     {
-        // gameScript = new Game();
         spawnPoint = transform.position;
         fireTime = Time.timeSinceLevelLoad;
         isFiring = false;
@@ -35,6 +35,8 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        game = GameObject.FindGameObjectWithTag("GameTag");
+
         if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
             if (!GameObject.FindGameObjectWithTag("OwlTag"))
@@ -84,8 +86,9 @@ public class PlayerScript : MonoBehaviour
                 playerSpeed = 1.5f;
         }
 
-        if (!gameScript.IsGamePaused())
+        if (!game.GetComponent<Game>().isPaused)
         {
+            Debug.Log(game.GetComponent<Game>().IsGamePaused());
             PlayerMove();
         }
 
@@ -168,7 +171,7 @@ public class PlayerScript : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         // other.gameObject.GetComponent<PigScript>().pigState
-        if (other.gameObject.tag == "Ennemy" && other.gameObject.GetComponent<PigScript>().pigState == PigScript.State.charging)
+        if (other.gameObject.tag == "PigTag" && other.gameObject.GetComponent<PigScript>().pigState == PigScript.State.charging)
         {
             if (health > 0)
             {
@@ -181,6 +184,8 @@ public class PlayerScript : MonoBehaviour
             other.gameObject.GetComponent<PigScript>().pigState = PigScript.State.ready;
         }
     }
+
+    void FootR() { }
 
     void FootL() { }
 

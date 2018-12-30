@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnnemySpawnScript : MonoBehaviour
+public class EnemySpawnScript : MonoBehaviour
 {
     [SerializeField] float spawningDistance;
     GameObject player;
     public GameObject pigPrefab;
     GameObject pig;
-    bool isActive;
+    public bool isActive;
 
-    int countPig;
+    public int countPig;
 
 
     void Start()
@@ -32,13 +32,13 @@ public class EnnemySpawnScript : MonoBehaviour
                 isActive = true;
                 if (countPig < 5)
                 {
-                    Invoke("Desactivate", 5);
+                    Invoke("Deactivate", 5);
                 }
             }
         }
     }
 
-    void Desactivate()
+    void Deactivate()
     {
         isActive = false;
     }

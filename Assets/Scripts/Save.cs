@@ -6,5 +6,4 @@ using UnityEngine;
 public class Save
 {
     public int savePointIndex;
-    // public Vector3 playerPosition;
 }

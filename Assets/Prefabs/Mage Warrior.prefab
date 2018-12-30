@@ -1674,10 +1674,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f89fb08954528184783491de231b730b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 0.22
+  playerSpeed: 0.235
   playerRotation: 2
+  health: 5
   basicAttackPrefab: {fileID: 1907056942111704, guid: e30e5dbdd8195a6499e9584de1e2871e,
     type: 2}
+  owlSentinelPrefab: {fileID: 1768819568518146, guid: 8d1f842f63fc3e44a82a544d16116338,
+    type: 2}
+  spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!137 &137590694443812594
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

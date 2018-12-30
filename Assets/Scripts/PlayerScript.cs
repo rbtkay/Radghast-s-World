@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
 {
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
+    [SerializeField] int health;
     // [SerializeField] NavMeshAgent agent;
     public GameObject basicAttackPrefab;
     bool castingOwl;
@@ -20,10 +21,7 @@ public class PlayerScript : MonoBehaviour
     Animator mageAnimator;
 
     float fireTime;
-    // Animation animationRun;
 
-    // last
-    // Use this for initialization
     void Start()
     {
         spawnPoint = transform.position;
@@ -35,11 +33,12 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log("haha on you !");
+        // Debug.Log("haha on you !");Joystick1Button9
         if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
             if (!GameObject.FindGameObjectWithTag("OwlTag"))
             {
+                Debug.Log("Clicked");
                 GameObject owlSentinel = GameObject.Instantiate(owlSentinelPrefab, transform.position, Quaternion.identity);
             }
             else
@@ -76,14 +75,12 @@ public class PlayerScript : MonoBehaviour
         if (isFiring)
             playerSpeed = 0f;
         else
-
         {
             if (!testingBool)
                 playerSpeed = 0.235f;
 
             else if (testingBool)
                 playerSpeed = 1.5f;
-
         }
 
         PlayerMove();
@@ -149,26 +146,10 @@ public class PlayerScript : MonoBehaviour
         /////////////////////////////////////////////////////////////////////
     }
 
-    private void OnBecameInvisible()
-    {
-
-    }
-
-    private void OnBecameVisible()
-    {
-
-    }
-
-    void ContinueMoving()
-    {
-        playerSpeed = 0.22f;
-    }
-
     void BasicAttack()
     {
         fireTime = Time.timeSinceLevelLoad;
         mageAnimator.SetTrigger("Attack1Trigger");
-        Debug.Log("Firing");
         isFiring = true;
         Invoke("CastSpell", 0.9f);
         // CastSpell();
@@ -178,6 +159,23 @@ public class PlayerScript : MonoBehaviour
     {
         Vector3 ballPosition = transform.position + transform.forward * 5f;
         GameObject basicAttack = GameObject.Instantiate(basicAttackPrefab, ballPosition + new Vector3(0, 5f, 0), transform.rotation);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        // other.gameObject.GetComponent<PigScript>().pigState
+        if (other.gameObject.tag == "Ennemy" && other.gameObject.GetComponent<PigScript>().pigState == PigScript.State.charging)
+        {
+            if (health > 0)
+            {
+                Debug.Log(health--);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            other.gameObject.GetComponent<PigScript>().pigState = PigScript.State.ready;
+        }
     }
 
     void FootR()

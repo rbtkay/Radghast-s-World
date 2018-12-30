@@ -1,10 +1,9 @@
-﻿    using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BasicAttackScript : MonoBehaviour
 {
-	
     [SerializeField] float projectileSpeed;
     Rigidbody rbProjectile;
     float projectileBirth;
@@ -21,11 +20,16 @@ public class BasicAttackScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		float projectileLife = Time.timeSinceLevelLoad - projectileBirth;
+        float projectileLife = Time.timeSinceLevelLoad - projectileBirth;
         if (projectileLife > projectileLifeTime)
-		{
-			Destroy(this.gameObject);
-		}
+        {
+            Destroy(this.gameObject);
+        }
 
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        Destroy(gameObject);
     }
 }

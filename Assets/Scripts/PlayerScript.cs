@@ -8,6 +8,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] Game gameScript;
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
+    [SerializeField] int health;
+
     public GameObject basicAttackPrefab;
     bool castingOwl;
     [SerializeField] GameObject owlSentinelPrefab;
@@ -20,10 +22,7 @@ public class PlayerScript : MonoBehaviour
     Animator mageAnimator;
 
     float fireTime;
-    // Animation animationRun;
 
-    // last
-    // Use this for initialization
     void Start()
     {
         // gameScript = new Game();
@@ -40,6 +39,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (!GameObject.FindGameObjectWithTag("OwlTag"))
             {
+                Debug.Log("Clicked");
                 GameObject owlSentinel = GameObject.Instantiate(owlSentinelPrefab, transform.position, Quaternion.identity);
             }
             else
@@ -76,14 +76,12 @@ public class PlayerScript : MonoBehaviour
         if (isFiring)
             playerSpeed = 0f;
         else
-
         {
             if (!testingBool)
                 playerSpeed = 0.235f;
 
             else if (testingBool)
                 playerSpeed = 1.5f;
-
         }
 
         if (!gameScript.IsGamePaused())
@@ -152,26 +150,10 @@ public class PlayerScript : MonoBehaviour
         /////////////////////////////////////////////////////////////////////
     }
 
-    private void OnBecameInvisible()
-    {
-
-    }
-
-    private void OnBecameVisible()
-    {
-
-    }
-
-    void ContinueMoving()
-    {
-        playerSpeed = 0.22f;
-    }
-
     void BasicAttack()
     {
         fireTime = Time.timeSinceLevelLoad;
         mageAnimator.SetTrigger("Attack1Trigger");
-        Debug.Log("Firing");
         isFiring = true;
         Invoke("CastSpell", 0.9f);
         // CastSpell();
@@ -183,7 +165,22 @@ public class PlayerScript : MonoBehaviour
         GameObject basicAttack = GameObject.Instantiate(basicAttackPrefab, ballPosition + new Vector3(0, 5f, 0), transform.rotation);
     }
 
-    void FootR() { }
+    private void OnCollisionEnter(Collision other)
+    {
+        // other.gameObject.GetComponent<PigScript>().pigState
+        if (other.gameObject.tag == "Ennemy" && other.gameObject.GetComponent<PigScript>().pigState == PigScript.State.charging)
+        {
+            if (health > 0)
+            {
+                Debug.Log(health--);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            other.gameObject.GetComponent<PigScript>().pigState = PigScript.State.ready;
+        }
+    }
 
     void FootL() { }
 

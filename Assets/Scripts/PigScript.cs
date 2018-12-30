@@ -5,16 +5,17 @@ using UnityEngine.AI;
 
 public class PigScript : MonoBehaviour
 {
-
     NavMeshAgent pigAgent;
-    Vector3 currentPosition;
-    [SerializeField] GameObject player;
+    GameObject player;
+    [SerializeField] GameObject pigBlood;
 
     [SerializeField] float distanceCharge;
+    [SerializeField] int health;
     Animator pigAnimator;
     Rigidbody pigBody;
     bool isCharging;
-
+    public enum State { ready, walking, charging };
+    public State pigState;
     float chargeTime;
 
     bool isMoving;
@@ -25,21 +26,23 @@ public class PigScript : MonoBehaviour
         pigAnimator = GetComponent<Animator>();
         pigAgent = GetComponent<NavMeshAgent>();
         pigBody = GetComponent<Rigidbody>();
+        player = GameObject.FindGameObjectWithTag("Player");
         chargeTime = 0f;
+        
         // pigAnimator.SetBool("New State 0", true);
-
     }
 
     void Update()
     {
         if (Time.timeSinceLevelLoad - chargeTime > 2)
         {
+            pigState = State.ready;
             pigBody.velocity = new Vector3(0, 0, 0);
             transform.LookAt(player.transform.position);
             if (Vector3.Distance(player.transform.position, transform.position) > distanceCharge && !isCharging)
             {
+                pigState = State.walking;
                 FollowMage();
-                // Debug.Log("distance");
             }
             else if (!isCharging)
             {
@@ -48,13 +51,11 @@ public class PigScript : MonoBehaviour
                 isCharging = true;
                 transform.LookAt(player.transform.position);
                 Invoke("Charging", 2);
-                // Debug.Log("Charging");
             }
         }
         else
         {
             FollowMage();
-            // Debug.Log("Waiting for cooldown");
         }
     }
 
@@ -69,15 +70,33 @@ public class PigScript : MonoBehaviour
     {
         pigBody.velocity = transform.forward * 50;
         pigAnimator.SetFloat("a", 1.5f);
+        pigState = State.charging;
         isCharging = false;
         chargeTime = Time.timeSinceLevelLoad;
     }
 
+    // public void ReduceHealth()
+    // {
+    //     Debug.Log("health reduced");
+    //     health--;
+    // }
+
     void OnCollisionEnter(Collision other)
     {
-        // if(other.gameObject.tag == )
-        pigBody.velocity = new Vector3(0, 0, 0);
-        transform.LookAt(player.transform.position);
-        // isCharging = false;
+        if (other.gameObject.tag == "Player")
+        {
+            pigBody.velocity = new Vector3(0, 0, 0);
+            transform.LookAt(player.transform.position);
+            // isCharging = false;
+        }
+        else if (other.gameObject.tag == "BasicAttack")
+        {
+            health--;
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+            // GameObject blood = GameObject.Instantiate(pigBlood, transform.position + new Vector3(0, 5, 0), Quaternion.identity);
+        }
     }
 }

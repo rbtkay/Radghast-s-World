@@ -5,18 +5,19 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
 
-    public GameObject player;
-	public Vector3 offset;
+    GameObject player;
+    public Vector3 offset;
     // Use this for initialization
     void Start()
     {
-        transform.position = player.transform.position + offset;
-        transform.LookAt(player.transform);
+        // transform.position = player.transform.position + offset;
+        // transform.LookAt(player.transform);
     }
 
     // Update is called once per frame
     void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         transform.position = player.transform.position + offset;
         transform.LookAt(player.transform);
     }

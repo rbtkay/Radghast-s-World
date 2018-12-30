@@ -13,9 +13,11 @@ public class Game : MonoBehaviour
     [SerializeField] GameObject menu;
     [SerializeField] Button resumeButton;
     [SerializeField] Button newGameButton;
-    public PlayerScript playerScript;
+    [SerializeField] GameObject spawnPoint;
+    
+    GameObject player;
     public GameObject[] savePoints;
-    private bool isPaused;
+    public bool isPaused;
 
     private void Awake()
     {
@@ -30,9 +32,10 @@ public class Game : MonoBehaviour
 
     void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         if (Input.GetButtonDown("Start"))
         {
-            Debug.Log(isPaused);
+            // Debug.Log(isPaused);
             if (isPaused)
             {
                 Unpause();
@@ -53,7 +56,7 @@ public class Game : MonoBehaviour
         //     save.livingTargetPositions.Add(enemy.transform.position);
         // }
 
-        save.savePointIndex = 1;
+        save.savePointIndex = 0;
 
         return save;
     }
@@ -81,13 +84,13 @@ public class Game : MonoBehaviour
         if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
         {
             ClearEnemies();
-            ResetPlayerPosition();
+            // ResetPlayerPosition();
 
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
             Save save = (Save)bf.Deserialize(file);
             file.Close();
-            playerScript.transform.position = savePoints[save.savePointIndex].transform.position;
+            player.transform.position = savePoints[save.savePointIndex].transform.position;
             Debug.Log("Game Loaded");
             Unpause();
         }
@@ -102,16 +105,16 @@ public class Game : MonoBehaviour
         menu.SetActive(true);
         newGameButton.Select();
         resumeButton.Select();
-        Time.timeScale = 0;
         isPaused = true;
+        Time.timeScale = 0;
     }
 
     public void Unpause()
     {
         menu.SetActive(false);
-        // Cursor.visible = false;
-        Time.timeScale = 1;
+        Cursor.visible = false;
         isPaused = false;
+        Time.timeScale = 1;
     }
 
     public bool IsGamePaused()
@@ -121,16 +124,21 @@ public class Game : MonoBehaviour
 
     private void ClearEnemies()
     {
-        foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("PigTag"))
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("PigTag"))
         {
             Destroy(enemy);
+        }
+
+        foreach (GameObject enemySpawn in GameObject.FindGameObjectsWithTag("EnemySpawnTag"))
+        {
+            enemySpawn.GetComponent<EnemySpawnScript>().countPig = 0;
+            enemySpawn.GetComponent<EnemySpawnScript>().isActive = false;
         }
     }
 
     private void ResetPlayerPosition()
     {
-        GameObject.FindGameObjectWithTag("Player").transform.position = playerScript.spawnPoint;
+        player.transform.position = spawnPoint.transform.position;
     }
-
 
 }

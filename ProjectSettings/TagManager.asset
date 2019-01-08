@@ -11,6 +11,10 @@ TagManager:
   - ResumeTag
   - GameTag
   - EnemySpawnTag
+  - NPCTag
+  - QuestGiverTag
+  - RoundTowerTag
+  - DarkTowerTag
   layers:
   - Default
   - TransparentFX

@@ -1674,7 +1674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f89fb08954528184783491de231b730b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 0.235
+  playerSpeed: 0.45
   playerRotation: 2
   health: 5
   basicAttackPrefab: {fileID: 1907056942111704, guid: e30e5dbdd8195a6499e9584de1e2871e,

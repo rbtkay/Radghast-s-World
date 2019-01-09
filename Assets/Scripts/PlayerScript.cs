@@ -80,7 +80,7 @@ public class PlayerScript : MonoBehaviour
         else
         {
             if (!testingBool)
-                playerSpeed = 0.235f;
+                playerSpeed = 0.45f;
 
             else if (testingBool)
                 playerSpeed = 1.5f;

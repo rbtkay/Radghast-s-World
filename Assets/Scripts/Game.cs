@@ -28,6 +28,7 @@ public class Game : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+        QualitySettings.vSyncCount = 2;
     }
 
     void Update()

@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4275672188217998}
   - component: {fileID: 137590694443812594}
-  - component: {fileID: 65534763255193084}
+  - component: {fileID: 64259612598543376}
   m_Layer: 9
   m_Name: Mesh-Mage
   m_TagString: Untagged
@@ -1633,8 +1633,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!65 &65534763255193084
-BoxCollider:
+--- !u!64 &64259612598543376
+MeshCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -1642,9 +1642,11 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.0039252, y: 0.8868446, z: 2.7249062}
-  m_Center: {x: -0.00000029802322, y: -0.0074564787, z: 1.3431458}
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!95 &95545177222032848
 Animator:
   serializedVersion: 3

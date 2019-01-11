@@ -26,12 +26,11 @@ public class CameraScript : MonoBehaviour
         while (Physics.Raycast(transform.position, dir, out hit, Vector3.Distance(transform.position, player.transform.position)))
         {
             Debug.DrawRay(transform.position, dir, Color.red);
-            if (hit.collider.tag != "Player")
+            if (hit.collider.tag != "Player" && hit.collider.tag != "MainWorld" && hit.collider.tag != "pigTag")
             {
                 Color temp = hit.transform.GetComponent<Material>().color;
                 temp.a = 0.5f;
                 hit.transform.GetComponent<Material>().color = temp;
-
             }
             else
             {

@@ -8,7 +8,7 @@ public class EnemySpawnScript : MonoBehaviour
     GameObject player;
     public GameObject pigPrefab;
     GameObject pig;
-    public bool isActive;
+    private bool isProducing;
 
     public int countPig;
 
@@ -25,11 +25,11 @@ public class EnemySpawnScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if (Vector3.Distance(player.transform.position, transform.position) < spawningDistance)
         {
-            if (!isActive)
+            if (!isProducing)
             {
                 pig = Instantiate(pigPrefab, transform.position, Quaternion.identity);
                 countPig++;
-                isActive = true;
+                isProducing = true;
                 if (countPig < 5)
                 {
                     Invoke("Deactivate", 5);
@@ -40,7 +40,7 @@ public class EnemySpawnScript : MonoBehaviour
 
     void Deactivate()
     {
-        isActive = false;
+        isProducing = false;
     }
 }
 

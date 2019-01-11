@@ -25,13 +25,11 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] GameObject owlSentinelPrefab;
     float owlLife;
     bool testingBool;
-
     public Vector3 spawnPoint;
     bool isFiring;
-
     Animator mageAnimator;
-
     float fireTime;
+    float regenTime;
 
     void Start()
     {
@@ -52,7 +50,7 @@ public class PlayerScript : MonoBehaviour
         maxFocus = 70 + sm.currentQuest * 30;
         focus = maxFocus;
 
-
+        regenTime = Time.timeSinceLevelLoad;
         spawnPoint = transform.position;
         fireTime = Time.timeSinceLevelLoad;
         isFiring = false;
@@ -79,6 +77,8 @@ public class PlayerScript : MonoBehaviour
         soulsText.GetComponent<Text>().text = "Souls: " + souls.ToString();
 
         focusBar.GetComponent<Image>().fillAmount = (float)(focus / maxFocus);
+
+        PlayerRegen();
 
         if (hitPoints < 0)
         {
@@ -140,6 +140,22 @@ public class PlayerScript : MonoBehaviour
 
 
         Input.ResetInputAxes();
+    }
+
+    void PlayerRegen()
+    {
+        if (Time.timeSinceLevelLoad - regenTime > 1)
+        {
+            if (hitPoints < maxHitPoints)
+            {
+                hitPoints += hitPointsRegen;
+            }
+            if (manaPoints < maxManaPoints)
+            {
+                manaPoints += manaPointsRegen;
+            }
+            regenTime = Time.timeSinceLevelLoad;
+        }
     }
     void PlayerMove()
     {

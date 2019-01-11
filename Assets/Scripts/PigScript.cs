@@ -119,6 +119,7 @@ public class PigScript : MonoBehaviour
             {
                 Destroy(gameObject);
                 GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().souls += soulReward;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().focus += focusReward;
             }
             // GameObject blood = GameObject.Instantiate(pigBlood, transform.position + new Vector3(0, 5, 0), Quaternion.identity);
         }

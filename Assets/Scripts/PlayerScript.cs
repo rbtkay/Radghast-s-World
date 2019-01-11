@@ -14,11 +14,12 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float playerRotation;
     double maxHitPoints, hitPoints, hitPointsRegen;
     double maxManaPoints, manaPoints, manaPointsRegen;
-    double maxFocus, focus;
+    double maxFocus;
+    public double focus;
     public int level;
     public int damage;
     public double souls;
-    public GameObject healthBar, healthText, manaBar, manaText, soulsText;
+    public GameObject healthBar, healthText, manaBar, manaText, soulsText, focusBar;
     public GameObject basicAttackPrefab;
     bool castingOwl;
     [SerializeField] GameObject owlSentinelPrefab;
@@ -67,6 +68,7 @@ public class PlayerScript : MonoBehaviour
         manaBar = GameObject.FindGameObjectWithTag("ManaBarTag");
         manaText = GameObject.FindGameObjectWithTag("ManaTextTag");
         soulsText = GameObject.FindGameObjectWithTag("SoulsTextTag");
+        focusBar = GameObject.FindGameObjectWithTag("FocusBarTag");
 
         healthText.GetComponent<Text>().text = ((int)(hitPoints)).ToString() + " / " + ((int)(maxHitPoints)).ToString();
         healthBar.GetComponent<Image>().fillAmount = (float)(hitPoints / maxHitPoints);
@@ -75,6 +77,8 @@ public class PlayerScript : MonoBehaviour
         manaBar.GetComponent<Image>().fillAmount = (float)(manaPoints / maxManaPoints);
 
         soulsText.GetComponent<Text>().text = "Souls: " + souls.ToString();
+
+        focusBar.GetComponent<Image>().fillAmount = (float)(focus / maxFocus);
 
         if (hitPoints < 0)
         {
@@ -85,7 +89,6 @@ public class PlayerScript : MonoBehaviour
         {
             if (!GameObject.FindGameObjectWithTag("OwlTag"))
             {
-                Debug.Log("Clicked");
                 GameObject owlSentinel = GameObject.Instantiate(owlSentinelPrefab, transform.position, Quaternion.identity);
             }
             else
@@ -202,7 +205,6 @@ public class PlayerScript : MonoBehaviour
         mageAnimator.SetTrigger("Attack1Trigger");
         isFiring = true;
         Invoke("CastSpell", 0.9f);
-        Debug.Log("focus: " + focus);
         // CastSpell();
     }
 
@@ -220,7 +222,6 @@ public class PlayerScript : MonoBehaviour
             {
                 hitPoints -= other.gameObject.GetComponent<PigScript>().damage;
             }
-            
             other.gameObject.GetComponent<PigScript>().pigState = PigScript.State.ready;
         }
     }

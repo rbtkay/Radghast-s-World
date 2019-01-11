@@ -31,7 +31,7 @@ TagManager:
   - SoulsTextTag
   - GameManagerTag
   - DestinationQuestTwoTag
-  
+  - FocusBarTag
   layers:
   - Default
   - TransparentFX

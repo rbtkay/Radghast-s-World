@@ -9,7 +9,15 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
-    [SerializeField] int health;
+    float maxHitPoints;
+    float hitPoints;
+    float maxManaPoints;
+    float manaPoints;
+    float maxFocus;
+    float focus;
+    public int level;
+    public float damage;
+    float souls;
 
     public GameObject basicAttackPrefab;
     bool castingOwl;
@@ -173,9 +181,9 @@ public class PlayerScript : MonoBehaviour
         // other.gameObject.GetComponent<PigScript>().pigState
         if (other.gameObject.tag == "PigTag" && other.gameObject.GetComponent<PigScript>().pigState == PigScript.State.charging)
         {
-            if (health > 0)
+            if (hitPoints > 0)
             {
-                Debug.Log(health--);
+                Debug.Log(hitPoints--);
             }
             else
             {

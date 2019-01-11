@@ -27,7 +27,7 @@ public class Game : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
+        // Cursor.visible = false;
         QualitySettings.vSyncCount = 2;
     }
 
@@ -113,7 +113,7 @@ public class Game : MonoBehaviour
     public void Unpause()
     {
         menu.SetActive(false);
-        Cursor.visible = false;
+        // Cursor.visible = false;
         isPaused = false;
         Time.timeScale = 1;
     }

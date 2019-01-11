@@ -28,6 +28,8 @@ TagManager:
   - ManaBarTag
   - HealthTextTag
   - ManaTextTag
+  - SoulsTextTag
+  - GameManagerTag
   layers:
   - Default
   - TransparentFX

@@ -15,6 +15,7 @@ public class Game : MonoBehaviour
     [SerializeField] Button newGameButton;
     [SerializeField] GameObject spawnPoint;
     
+    public GameObject UI;
     GameObject player;
     public GameObject[] savePoints;
     public bool isPaused;

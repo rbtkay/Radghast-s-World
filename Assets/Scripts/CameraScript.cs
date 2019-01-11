@@ -37,15 +37,11 @@ public class CameraScript : MonoBehaviour
                 hit.collider.GetComponent<MeshRenderer>().enabled = false;
                 hit.collider.tag = "CameraHitTag";
             }
-            else if(GameObject.FindGameObjectWithTag("CameraHitTag") != null)
+            else if (GameObject.FindGameObjectWithTag("CameraHitTag") != null)
             {
                 GameObject.FindGameObjectWithTag("CameraHitTag").GetComponent<MeshRenderer>().enabled = true;
                 GameObject.FindGameObjectWithTag("CameraHitTag").tag = "Untagged";
             }
-            // Color temp = mainColor = hit.transform.GetComponent<Material>().color;
-            // temp.a = 0.5f;
-            // hit.transform.GetComponent<Material>().color = temp;
-            // GameObject.FindGameObjectWithTag("CameraHitTag").GetComponent<Material>().color = mainColor;
         }
     }
 }

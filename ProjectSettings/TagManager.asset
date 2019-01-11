@@ -24,7 +24,14 @@ TagManager:
   - CameraHitTag
   - MainWorldTag
   - npcOne
+  - HealthBarTag
+  - ManaBarTag
+  - HealthTextTag
+  - ManaTextTag
+  - SoulsTextTag
+  - GameManagerTag
   - DestinationQuestTwoTag
+  
   layers:
   - Default
   - TransparentFX

@@ -6,4 +6,6 @@ using UnityEngine;
 public class Save
 {
     public int savePointIndex;
+    public int playerLevel;
+    public ScriptManager.State gameState;
 }

@@ -14,7 +14,7 @@ public class RoundedTowerScript : MonoBehaviour
     private bool isProducing;
     public bool isActive;
     int firstTriggerCount;
-    bool firstTrigger;
+    bool isFirstTriggerDone;
 
     // Use this for initialization
     void Start()
@@ -22,7 +22,7 @@ public class RoundedTowerScript : MonoBehaviour
         isActive = false;
         maxHitPoints = 300;
         firstTriggerCount = 0;
-        firstTrigger = false;
+        isFirstTriggerDone = false;
     }
 
     // Update is called once per frame
@@ -38,14 +38,22 @@ public class RoundedTowerScript : MonoBehaviour
                 {
                     pig = Instantiate(pigPrefab, transform.position, Quaternion.identity);
                     firstTriggerCount++;
+                    Debug.Log("Pig Created");
+                }
+                else
+                {
+                    isFirstTriggerDone = true;
+                }
+
+                if (!isProducing && isFirstTriggerDone)
+                {
+                    pig = Instantiate(pigPrefab, transform.position, Quaternion.identity);
+                    Debug.Log("Pig Created");
+                    isProducing = true;
+                    Invoke("Deactivate", spawningFrequency);
                 }
             }
-            if (!isProducing)
-            {
-                pig = Instantiate(pigPrefab, transform.position, Quaternion.identity);
-                isProducing = true;
-                Invoke("Deactivate", spawningFrequency);
-            }
+
         }
     }
 
@@ -63,8 +71,12 @@ public class RoundedTowerScript : MonoBehaviour
                 hitPoints -= other.gameObject.GetComponent<BasicAttackScript>().damage;
                 if (hitPoints <= 0)
                 {
-                    Destroy(gameObject);
+                    Destroy(transform.parent.gameObject);
                 }
+            }
+            if (other.gameObject.tag == "PigTag")
+            {
+                Physics.IgnoreCollision(other.collider, GetComponent<Collider>());
             }
         }
     }

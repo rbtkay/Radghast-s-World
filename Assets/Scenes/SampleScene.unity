@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -277,12 +277,21 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1508100061290416, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_TagString
-      value: QuestOneTag
+      value: RoundTowerTag
       objectReference: {fileID: 0}
     - target: {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d,
         type: 2}
       propertyPath: towerLife
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1185531518177414, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
+      propertyPath: m_TagString
+      value: QuestOneTag
+      objectReference: {fileID: 0}
+    - target: {fileID: 114919551430992810, guid: c645fb057ac6d6e4ba814f0ead508c5d,
+        type: 2}
+      propertyPath: triggerDistance
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 136965858246527794, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
@@ -1005,7 +1014,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4479220435269614, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 402.5
+      value: 404.7
       objectReference: {fileID: 0}
     - target: {fileID: 4479220435269614, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1013,7 +1022,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4479220435269614, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 131.2
+      value: 144.7
       objectReference: {fileID: 0}
     - target: {fileID: 4479220435269614, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1045,12 +1054,21 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1508100061290416, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_TagString
-      value: QuestOneTag
+      value: RoundTowerTag
       objectReference: {fileID: 0}
     - target: {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d,
         type: 2}
       propertyPath: towerLife
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1185531518177414, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
+      propertyPath: m_TagString
+      value: QuestOneTag
+      objectReference: {fileID: 0}
+    - target: {fileID: 114919551430992810, guid: c645fb057ac6d6e4ba814f0ead508c5d,
+        type: 2}
+      propertyPath: triggerDistance
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
@@ -1326,12 +1344,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1508100061290416, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_TagString
-      value: QuestTwoTag
+      value: RoundTowerTag
       objectReference: {fileID: 0}
     - target: {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d,
         type: 2}
       propertyPath: towerLife
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1185531518177414, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
+      propertyPath: m_TagString
+      value: QuestTwoTag
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
@@ -1443,7 +1465,6 @@ GameObject:
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
   - component: {fileID: 534669906}
-  - component: {fileID: 534669907}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: Untagged
@@ -1523,22 +1544,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 35, z: -20}
---- !u!114 &534669907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 534669902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fc6bde01469c7b4badee5362f191d96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  downsample: 1
-  blurSize: 3
-  blurIterations: 2
-  blurType: 0
-  blurShader: {fileID: 4800000, guid: f9d5fa183cd6b45eeb1491f74863cd91, type: 3}
 --- !u!1001 &593854466
 Prefab:
   m_ObjectHideFlags: 0
@@ -2644,12 +2649,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1508100061290416, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_TagString
-      value: QuestTwoTag
+      value: RoundTowerTag
       objectReference: {fileID: 0}
     - target: {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d,
         type: 2}
       propertyPath: towerLife
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1185531518177414, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
+      propertyPath: m_TagString
+      value: QuestTwoTag
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
@@ -2874,12 +2883,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1508100061290416, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
       propertyPath: m_TagString
-      value: QuestTwoTag
+      value: RoundTowerTag
       objectReference: {fileID: 0}
     - target: {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d,
         type: 2}
       propertyPath: towerLife
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1185531518177414, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
+      propertyPath: m_TagString
+      value: QuestTwoTag
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114202994429660972, guid: c645fb057ac6d6e4ba814f0ead508c5d, type: 2}
@@ -3016,56 +3029,57 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd56a150df7c7e14eb15311454c29739, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &1837873390
+--- !u!1001 &1790442735
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4866286448648066, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 107.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866286448648066, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866286448648066, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 108.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866286448648066, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866286448648066, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.04620242
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866286448648066, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866286448648066, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -0.9989321
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866286448648066, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_RootOrder
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1882190697659484, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+      propertyPath: m_TagString
+      value: DestinationQuestTwoTag
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 31f1ead241d745342847d8736ab3ecae, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1 &1837873390 stripped
 GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1359279301149310, guid: 7da83b4f6a46cf04aa9cf960f7509989,
+  m_CorrespondingSourceObject: {fileID: 1882190697659484, guid: 31f1ead241d745342847d8736ab3ecae,
     type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1837873392}
-  - component: {fileID: 1837873391}
-  m_Layer: 0
-  m_Name: QuestOnePosition
-  m_TagString: QuestGiverTag
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!95 &1837873391
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 95144744508621136, guid: 7da83b4f6a46cf04aa9cf960f7509989,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1837873390}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: fe55e5a0c1bcd72488aa4508bea6f93b, type: 3}
-  m_Controller: {fileID: 9100000, guid: 4675f30ca1f2ec4419c0a84c62a76e47, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!4 &1837873392
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4303561747863274, guid: 7da83b4f6a46cf04aa9cf960f7509989,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1837873390}
-  m_LocalRotation: {x: -0, y: 0.04620242, z: -0, w: -0.9989321}
-  m_LocalPosition: {x: 107.64, y: 0, z: 108.13}
-  m_LocalScale: {x: 4, y: 4, z: 4}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 26
-  m_LocalEulerAnglesHint: {x: 0, y: 354.704, z: 360}
+  m_PrefabInternal: {fileID: 1790442735}
 --- !u!1 &1841887437 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1778380753458614, guid: dd56a150df7c7e14eb15311454c29739,

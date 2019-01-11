@@ -9,6 +9,7 @@ public class BasicAttackScript : MonoBehaviour
     Rigidbody rbProjectile;
     float projectileBirth;
     [SerializeField] float projectileLifeTime;
+    public float damage;
 
     // Use this for initialization
     void Start()

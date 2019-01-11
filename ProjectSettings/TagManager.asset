@@ -23,7 +23,8 @@ TagManager:
   - npcThreeTag
   - CameraHitTag
   - MainWorldTag
-
+  - npcOne
+  - DestinationQuestTwoTag
   layers:
   - Default
   - TransparentFX

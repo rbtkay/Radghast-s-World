@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
-    float maxHitPoints;
+    float maxHitPoints = 10.0f;
     float hitPoints;
     float maxManaPoints;
     float manaPoints;
@@ -38,6 +38,7 @@ public class PlayerScript : MonoBehaviour
         fireTime = Time.timeSinceLevelLoad;
         isFiring = false;
         mageAnimator = GetComponent<Animator>();
+        hitPoints = maxHitPoints;
     }
 
     // Update is called once per frame

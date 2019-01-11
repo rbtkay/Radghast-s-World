@@ -5,6 +5,7 @@ using UnityEngine;
 public class BasicAttackScript : MonoBehaviour
 {
     [SerializeField] float projectileSpeed;
+    float damageValue;
     Rigidbody rbProjectile;
     float projectileBirth;
     [SerializeField] float projectileLifeTime;

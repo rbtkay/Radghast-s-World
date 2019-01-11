@@ -133,7 +133,6 @@ public class Game : MonoBehaviour
         foreach (GameObject enemySpawn in GameObject.FindGameObjectsWithTag("EnemySpawnTag"))
         {
             enemySpawn.GetComponent<EnemySpawnScript>().countPig = 0;
-            enemySpawn.GetComponent<EnemySpawnScript>().isActive = false;
         }
     }
 

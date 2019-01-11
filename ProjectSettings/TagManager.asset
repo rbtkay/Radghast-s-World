@@ -15,8 +15,15 @@ TagManager:
   - QuestGiverTag
   - RoundTowerTag
   - DarkTowerTag
+  - QuestOneTag
+  - QuestTwoTag
+  - QuestThreeTag
+  - npcOneTag
+  - npcTwoTag
+  - npcThreeTag
   - CameraHitTag
   - MainWorldTag
+
   layers:
   - Default
   - TransparentFX

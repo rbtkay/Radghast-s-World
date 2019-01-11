@@ -96,7 +96,7 @@ public class PlayerScript : MonoBehaviour
 
         if (!game.GetComponent<Game>().isPaused)
         {
-            Debug.Log(game.GetComponent<Game>().IsGamePaused());
+            // Debug.Log(game.GetComponent<Game>().IsGamePaused());
             PlayerMove();
         }
 

@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 64259612598543376}
   m_Layer: 9
   m_Name: Mesh-Mage
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -399,7 +399,7 @@ GameObject:
   - component: {fileID: 137885255221731094}
   m_Layer: 9
   m_Name: Mesh-Staff
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -807,7 +807,7 @@ GameObject:
   - component: {fileID: 4848916704262874}
   m_Layer: 9
   m_Name: Motion
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

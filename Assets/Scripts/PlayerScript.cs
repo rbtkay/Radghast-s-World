@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using System;
 
 public class PlayerScript : MonoBehaviour
 {
-    /* [SerializeField] */ GameObject game;
-
+    /* [SerializeField] */
+    GameObject game;
+    ScriptManager sm;
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
-    float maxHitPoints;
-    float hitPoints;
-    float maxManaPoints;
-    float manaPoints;
-    float maxFocus;
-    float focus;
+    double maxHitPoints, hitPoints, hitPointsRegen;
+    double maxManaPoints, manaPoints, manaPointsRegen;
+    double maxFocus, focus;
     public int level;
-    public float damage;
-    float souls;
-
+    public int damage;
+    public double souls;
+    public GameObject healthBar, healthText, manaBar, manaText, soulsText;
     public GameObject basicAttackPrefab;
     bool castingOwl;
     [SerializeField] GameObject owlSentinelPrefab;
@@ -34,16 +34,52 @@ public class PlayerScript : MonoBehaviour
 
     void Start()
     {
+        level = 1;
+        souls = 0;
+
+        maxHitPoints = 95 + level * 5;
+        hitPoints = maxHitPoints;
+        hitPointsRegen = 0.15 + level * 0.05;
+
+        maxManaPoints = 95 + level * 5;
+        manaPoints = maxManaPoints;
+        manaPointsRegen = 0.05 + level * 0.15;
+
+        damage = 8 + level * 2;
+
+        sm = GameObject.FindGameObjectWithTag("GameManagerTag").GetComponent<ScriptManager>();
+        maxFocus = 70 + sm.currentQuest * 30;
+        focus = maxFocus;
+
+
         spawnPoint = transform.position;
         fireTime = Time.timeSinceLevelLoad;
         isFiring = false;
-        mageAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        mageAnimator = GetComponent<Animator>();
         game = GameObject.FindGameObjectWithTag("GameTag");
+        healthBar = GameObject.FindGameObjectWithTag("HealthBarTag");
+        healthText = GameObject.FindGameObjectWithTag("HealthTextTag");
+        manaBar = GameObject.FindGameObjectWithTag("ManaBarTag");
+        manaText = GameObject.FindGameObjectWithTag("ManaTextTag");
+        soulsText = GameObject.FindGameObjectWithTag("SoulsTextTag");
+
+        healthText.GetComponent<Text>().text = ((int)(hitPoints)).ToString() + " / " + ((int)(maxHitPoints)).ToString();
+        healthBar.GetComponent<Image>().fillAmount = (float)(hitPoints / maxHitPoints);
+
+        manaText.GetComponent<Text>().text = ((int)(manaPoints)).ToString() + " / " + ((int)(maxManaPoints)).ToString();
+        manaBar.GetComponent<Image>().fillAmount = (float)(manaPoints / maxManaPoints);
+
+        soulsText.GetComponent<Text>().text = "Souls: " + souls.ToString();
+
+        if (hitPoints < 0)
+        {
+            Destroy(gameObject);
+        }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
@@ -96,7 +132,6 @@ public class PlayerScript : MonoBehaviour
 
         if (!game.GetComponent<Game>().isPaused)
         {
-            // Debug.Log(game.GetComponent<Game>().IsGamePaused());
             PlayerMove();
         }
 
@@ -167,6 +202,7 @@ public class PlayerScript : MonoBehaviour
         mageAnimator.SetTrigger("Attack1Trigger");
         isFiring = true;
         Invoke("CastSpell", 0.9f);
+        Debug.Log("focus: " + focus);
         // CastSpell();
     }
 
@@ -178,17 +214,13 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        // other.gameObject.GetComponent<PigScript>().pigState
         if (other.gameObject.tag == "PigTag" && other.gameObject.GetComponent<PigScript>().pigState == PigScript.State.charging)
         {
             if (hitPoints > 0)
             {
-                Debug.Log(hitPoints--);
+                hitPoints -= other.gameObject.GetComponent<PigScript>().damage;
             }
-            else
-            {
-                Destroy(gameObject);
-            }
+            
             other.gameObject.GetComponent<PigScript>().pigState = PigScript.State.ready;
         }
     }

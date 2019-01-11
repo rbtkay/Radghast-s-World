@@ -9,6 +9,7 @@ public class ScriptManager : MonoBehaviour
 
     public enum State { noQuest, inQuest, questOne, questTwo, questThree, finalQuest };
     public State gameState;
+    public int currentQuest;
 
     public GameObject initialSpawnPoint;
 
@@ -44,6 +45,7 @@ public class ScriptManager : MonoBehaviour
             }
             npctwo = GameObject.Instantiate(questTwo, questTwoPosition.transform.position, Quaternion.identity);
             gameState = State.inQuest;
+            currentQuest = 1;
         }
         else if (gameState == State.questTwo)
         {
@@ -53,6 +55,7 @@ public class ScriptManager : MonoBehaviour
             }
             npcThree = GameObject.Instantiate(questThree, questThreePosition.transform.position, Quaternion.identity);
             gameState = State.inQuest;
+            currentQuest = 2;
         }
         else if (gameState == State.questThree)
         {
@@ -61,6 +64,7 @@ public class ScriptManager : MonoBehaviour
                 item.GetComponent<RoundedTowerScript>().isActive = true;
             }
             gameState = State.inQuest;
+            currentQuest = 3;
         }
 
         CheckInteraction();

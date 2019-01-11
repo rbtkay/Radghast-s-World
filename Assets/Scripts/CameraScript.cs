@@ -32,23 +32,18 @@ public class CameraScript : MonoBehaviour
         if (Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity, layerMask))
         {
             Debug.DrawRay(transform.position, dir, Color.red);
-            if (hit.collider.tag != "Player" && hit.collider.tag != "MainWorldTag" && hit.collider.tag != "pigTag")
+            if (hit.collider.tag != "Player" && hit.collider.tag != "MainWorldTag" && hit.collider.tag != "PigTag")
             {
-                Color temp = hit.transform.GetComponent<Material>().color;
-                temp.a = 0.5f;
-                hit.transform.GetComponent<Material>().color = temp;
+                hit.collider.GetComponent<MeshRenderer>().enabled = false;
+                hit.collider.tag = "CameraHitTag";
 
             }
-            else
+            else if (GameObject.FindGameObjectWithTag("CameraHitTag") != null)
             {
                 GameObject.FindGameObjectWithTag("CameraHitTag").GetComponent<MeshRenderer>().enabled = true;
                 GameObject.FindGameObjectWithTag("CameraHitTag").tag = "Untagged";
-                Debug.Log("ELSE");
+
             }
-            // Color temp = mainColor = hit.transform.GetComponent<Material>().color;
-            // temp.a = 0.5f;
-            // hit.transform.GetComponent<Material>().color = temp;
-            // GameObject.FindGameObjectWithTag("CameraHitTag").GetComponent<Material>().color = mainColor;
         }
     }
 }

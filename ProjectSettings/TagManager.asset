@@ -23,7 +23,11 @@ TagManager:
   - npcThreeTag
   - CameraHitTag
   - MainWorldTag
-
+  - npcOne
+  - HealthBarTag
+  - ManaBarTag
+  - HealthTextTag
+  - ManaTextTag
   layers:
   - Default
   - TransparentFX

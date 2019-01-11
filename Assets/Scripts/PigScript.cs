@@ -7,10 +7,14 @@ public class PigScript : MonoBehaviour
 {
     NavMeshAgent pigAgent;
     GameObject player;
+    public PlayerScript playerScript;
     [SerializeField] GameObject pigBlood;
 
     [SerializeField] float distanceCharge;
-    [SerializeField] int health;
+    float maxHitPoints, hitPoints;
+    public int damage;
+    int soulReward;
+    int focusReward;
     Animator pigAnimator;
     Rigidbody pigBody;
     bool isCharging;
@@ -23,12 +27,27 @@ public class PigScript : MonoBehaviour
 
     void Start()
     {
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        // maxHitPoints = (gameObject.tag == "PigOneTag" ? 60 : 150);
+        maxHitPoints = 60; // << remove this when placed different tags for pigs >>
+
+        hitPoints = maxHitPoints;
+
+        // damage = (gameObject.tag == "PigOneTag" ? Random.Range(10, 15) : Random.Range(15, 25));
+        damage = Random.Range(10, 15); // << remove >>
+
+        // soulReward = (gameObject.tag == "PigOneTag" ? Random.Range(10, 15) + playerScript.level : Random.Range(20, 30) + playerScript.level);
+        soulReward = Random.Range(10, 15) + playerScript.level; // << remove >> 
+
+        // focusReward = (gameObject.tag == "PigOneTag" ? Random.Range(2, 4) : Random.Range(3, 6);
+        focusReward = Random.Range(2, 4); // << remove >> 
+
         pigAnimator = GetComponent<Animator>();
         pigAgent = GetComponent<NavMeshAgent>();
         pigBody = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
         chargeTime = 0f;
-        
+
         // pigAnimator.SetBool("New State 0", true);
     }
 
@@ -91,10 +110,15 @@ public class PigScript : MonoBehaviour
         }
         else if (other.gameObject.tag == "BasicAttack")
         {
-            health--;
-            if (health <= 0)
+            if (hitPoints > 0)
+            {
+                hitPoints -= other.gameObject.GetComponent<BasicAttackScript>().damage;
+                Debug.Log("HitPoints: " + hitPoints);
+            }
+            if (hitPoints <= 0)
             {
                 Destroy(gameObject);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().souls += soulReward;
             }
             // GameObject blood = GameObject.Instantiate(pigBlood, transform.position + new Vector3(0, 5, 0), Quaternion.identity);
         }

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4419310836674980}
   - component: {fileID: 33325578808723306}
   - component: {fileID: 23232878882691428}
+  - component: {fileID: 114919551430992810}
   m_Layer: 0
   m_Name: TowerR_Walls
   m_TagString: Untagged
@@ -436,10 +437,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c9b33242d32cac47bf8957fa38c0489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPoints: 0
+  maxHitPoints: 0
+  triggerDistance: 0
   spawningFrequency: 10
   pigPrefab: {fileID: 1978798482010570, guid: f64234a83d823634c93960456e2973a0, type: 2}
   isActive: 0
-  towerLife: 0
+--- !u!114 &114919551430992810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1185531518177414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9b33242d32cac47bf8957fa38c0489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 0
+  maxHitPoints: 300
+  triggerDistance: 30
+  spawningFrequency: 10
+  pigPrefab: {fileID: 1978798482010570, guid: f64234a83d823634c93960456e2973a0, type: 2}
+  isActive: 0
 --- !u!136 &136965858246527794
 CapsuleCollider:
   m_ObjectHideFlags: 1

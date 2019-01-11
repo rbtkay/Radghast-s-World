@@ -696,7 +696,7 @@ GameObject:
   - component: {fileID: 4594344637057780}
   m_Layer: 0
   m_Name: WA L Point
-  m_TagString: Untagged
+  m_TagString: PigTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -846,7 +846,7 @@ GameObject:
   - component: {fileID: 4447724044926444}
   m_Layer: 0
   m_Name: WA R Point
-  m_TagString: Untagged
+  m_TagString: PigTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -876,7 +876,7 @@ GameObject:
   - component: {fileID: 4095691064287712}
   m_Layer: 0
   m_Name: Bip001
-  m_TagString: Untagged
+  m_TagString: PigTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 64283807077320110}
   m_Layer: 0
   m_Name: B201@1
-  m_TagString: Untagged
+  m_TagString: PigTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

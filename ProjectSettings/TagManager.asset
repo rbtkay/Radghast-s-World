@@ -30,6 +30,8 @@ TagManager:
   - ManaTextTag
   - SoulsTextTag
   - GameManagerTag
+  - DestinationQuestTwoTag
+  
   layers:
   - Default
   - TransparentFX

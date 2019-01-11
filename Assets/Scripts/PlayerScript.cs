@@ -55,12 +55,12 @@ public class PlayerScript : MonoBehaviour
         spawnPoint = transform.position;
         fireTime = Time.timeSinceLevelLoad;
         isFiring = false;
+        mageAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        mageAnimator = GetComponent<Animator>();
         game = GameObject.FindGameObjectWithTag("GameTag");
         healthBar = GameObject.FindGameObjectWithTag("HealthBarTag");
         healthText = GameObject.FindGameObjectWithTag("HealthTextTag");

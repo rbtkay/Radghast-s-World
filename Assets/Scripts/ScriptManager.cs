@@ -24,8 +24,13 @@ public class ScriptManager : MonoBehaviour
     private string tagToFind;
 
     GameObject npcOne;
-    GameObject npctwo;
+    GameObject npcTwo;
     GameObject npcThree;
+
+    bool isInteractionOneDone;
+    bool isInteractionTwoDone;
+    bool isInteractionThreeDone;
+
     void Start()
     {
         gameState = State.noQuest;
@@ -33,6 +38,9 @@ public class ScriptManager : MonoBehaviour
         player = GameObject.Instantiate(playerPrefab, initialSpawnPoint.transform.position, Quaternion.identity);
 
         npcOne = GameObject.Instantiate(questOne, questOnePosition.transform.position, Quaternion.identity);
+        isInteractionOneDone = false;
+        isInteractionTwoDone = false;
+        isInteractionThreeDone = false;
     }
 
     void Update()
@@ -43,7 +51,7 @@ public class ScriptManager : MonoBehaviour
             {
                 item.GetComponent<RoundedTowerScript>().isActive = true;
             }
-            npctwo = GameObject.Instantiate(questTwo, questTwoPosition.transform.position, Quaternion.identity);
+            npcTwo = GameObject.Instantiate(questTwo, questTwoPosition.transform.position, Quaternion.identity);
             gameState = State.inQuest;
             currentQuest = 1;
         }
@@ -72,37 +80,47 @@ public class ScriptManager : MonoBehaviour
 
     void CheckInteraction()
     {
-        if (GameObject.FindGameObjectWithTag("npcOneTag") != null)
+        if (GameObject.FindGameObjectWithTag("npcOneTag") != null && !isInteractionOneDone)
         {
             if (Vector3.Distance(player.transform.position, npcOne.transform.position) < 10.0)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    isInteractionOneDone = true;
                     gameState = State.questOne;
                     Debug.Log("interaction with quest 1");
                 }
             }
         }
 
-        if (GameObject.FindGameObjectWithTag("npcTwoTag") != null)
+        if (GameObject.FindGameObjectWithTag("npcTwoTag") != null && !isInteractionTwoDone)
         {
-           if (Vector3.Distance(player.transform.position, npctwo.transform.position) < 10.0)
+            if (Vector3.Distance(player.transform.position, npcTwo.transform.position) < 10.0)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    isInteractionTwoDone = true;
                     gameState = State.questTwo;
-                    Debug.Log("interaction with quest 2");
+                    
                     Destroy(GameObject.FindGameObjectWithTag("npcOneTag"));
+
+                    npcTwo.GetComponent<QuestTwoScript>().isActive = true;
+
+                    foreach (GameObject item in GameObject.FindGameObjectsWithTag("EnemySpawnTag"))
+                    {
+                        item.GetComponent<EnemySpawnScript>().isActive = true;                        
+                    }
                 }
             }
         }
 
-        if (GameObject.FindGameObjectWithTag("npcThreeTag") != null)
+        if (GameObject.FindGameObjectWithTag("npcThreeTag") != null && !isInteractionThreeDone)
         {
             if (Vector3.Distance(player.transform.position, npcThree.transform.position) < 10.0)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    isInteractionThreeDone = true;
                     gameState = State.questThree;
                 }
             }

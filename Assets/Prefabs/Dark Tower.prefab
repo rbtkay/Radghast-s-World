@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33605548079444608}
   - component: {fileID: 23241180122293340}
   - component: {fileID: 114658137909761638}
+  - component: {fileID: 64069557451063424}
   m_Layer: 0
   m_Name: Dark Tower
   m_TagString: DarkTowerTag
@@ -83,6 +84,20 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1891450096890918}
+  m_Mesh: {fileID: 4300000, guid: d6f9b3733628684469fb1a97d64074a8, type: 3}
+--- !u!64 &64069557451063424
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891450096890918}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: d6f9b3733628684469fb1a97d64074a8, type: 3}
 --- !u!114 &114658137909761638
 MonoBehaviour:

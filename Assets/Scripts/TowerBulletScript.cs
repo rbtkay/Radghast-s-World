@@ -6,10 +6,13 @@ public class TowerBulletScript : MonoBehaviour
 {
     [SerializeField] float bulletSpeed;
     Vector3 destination;
+    GameObject terrain;
     // Use this for initialization
     void Start()
     {
         destination = GameObject.FindGameObjectWithTag("Player").transform.position;
+        terrain = GameObject.FindGameObjectWithTag("MainWorldTag");
+        Physics.IgnoreCollision(GetComponent<Collider>(), terrain.GetComponent<Collider>());
     }
 
     // Update is called once per frame
@@ -20,11 +23,7 @@ public class TowerBulletScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        // if (other.gameObject.tag == "QuestThreeTag")
-        // {
-
-        // }
-        if (other.gameObject.tag == "Player" || other.gameObject.tag == "MainWorldTag")
+        if (other.gameObject.tag == "Player")
         {
             Destroy(gameObject);
         }

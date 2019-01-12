@@ -33,5 +33,6 @@ public class DarkTowerScript : MonoBehaviour
     {
         currentTime = Time.timeSinceLevelLoad;
         bullet = GameObject.Instantiate(bulletPrefab, transform.position + new Vector3(0, 25, 0), Quaternion.identity);
+        Physics.IgnoreCollision(GetComponent<Collider>(), bullet.GetComponent<Collider>());
     }
 }

@@ -32,6 +32,7 @@ TagManager:
   - GameManagerTag
   - DestinationQuestTwoTag
   - FocusBarTag
+  - ChestTag
   layers:
   - Default
   - TransparentFX

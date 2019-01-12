@@ -14,7 +14,7 @@ public class Game : MonoBehaviour
     [SerializeField] Button resumeButton;
     [SerializeField] Button newGameButton;
     [SerializeField] GameObject spawnPoint;
-    
+
     public GameObject UI;
     GameObject player;
     public GameObject[] savePoints;
@@ -58,7 +58,10 @@ public class Game : MonoBehaviour
         //     save.livingTargetPositions.Add(enemy.transform.position);
         // }
 
-        save.savePointIndex = 0;
+        // save.savePointIndex = 0;
+        save.saveX = player.transform.position.x;
+        save.saveY = player.transform.position.y;
+        save.saveZ = player.transform.position.z;
 
         return save;
     }
@@ -92,7 +95,8 @@ public class Game : MonoBehaviour
             FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
             Save save = (Save)bf.Deserialize(file);
             file.Close();
-            player.transform.position = savePoints[save.savePointIndex].transform.position;
+            player.transform.position = new Vector3(save.saveX, save.saveY, save.saveZ);
+            // player.transform.position = savePoints[save.savePointIndex].transform.position;
             Debug.Log("Game Loaded");
             Unpause();
         }

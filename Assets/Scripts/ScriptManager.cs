@@ -101,14 +101,14 @@ public class ScriptManager : MonoBehaviour
                 {
                     isInteractionTwoDone = true;
                     gameState = State.questTwo;
-                    
+
                     Destroy(GameObject.FindGameObjectWithTag("npcOneTag"));
 
                     npcTwo.GetComponent<QuestTwoScript>().isActive = true;
 
                     foreach (GameObject item in GameObject.FindGameObjectsWithTag("EnemySpawnTag"))
                     {
-                        item.GetComponent<EnemySpawnScript>().isActive = true;                        
+                        item.GetComponent<EnemySpawnScript>().isActive = true;
                     }
                 }
             }

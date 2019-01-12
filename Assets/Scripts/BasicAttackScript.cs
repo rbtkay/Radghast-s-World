@@ -16,12 +16,10 @@ public class BasicAttackScript : MonoBehaviour
     void Start()
     {
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
-        Debug.Log(playerScript.damage);
         rbProjectile = GetComponent<Rigidbody>();
         rbProjectile.velocity = transform.forward * projectileSpeed;
         projectileBirth = Time.timeSinceLevelLoad;
         damage = Random.Range(playerScript.damage - 2, playerScript.damage + 2);
-        // Debug.Log("Damage: " + damage);
     }
 
     // Update is called once per frame

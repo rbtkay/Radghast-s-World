@@ -8,6 +8,7 @@ public class QuestTwoScript : MonoBehaviour
     NavMeshAgent npcAgent;
     public bool isActive;
     private bool isWalking;
+    Vector3 destination;
     // Use this for initialization
     void Start()
     {
@@ -22,6 +23,7 @@ public class QuestTwoScript : MonoBehaviour
         if (isActive)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
+            destination = GameObject.FindGameObjectWithTag("DestinationQuestTwoTag").transform.position;
 
             if (Vector3.Distance(transform.position, player.transform.position) < 40)
             {
@@ -31,20 +33,24 @@ public class QuestTwoScript : MonoBehaviour
             {
                 npcStop();
             }
+            
+            if (Vector3.Distance(transform.position, destination) < 10)
+            {
+                ReachedDestination();
+            }
         }
     }
 
     private void Walk()
     {
-        Vector3 destination = GameObject.FindGameObjectWithTag("DestinationQuestTwoTag").transform.position;
-        npcAgent.speed = 1.0f;
+        npcAgent.speed = 5.0f;
         npcAgent.SetDestination(destination);
         npcAnimator.SetBool("Walk", true);
 
         if (Vector3.Distance(transform.position, destination) < 2.0f)
         {
-			npcStop();
-			isActive = false;
+            npcStop();
+            isActive = false;
         }
     }
 
@@ -52,5 +58,13 @@ public class QuestTwoScript : MonoBehaviour
     {
         npcAgent.speed = 0.0f;
         npcAnimator.SetBool("Walk", false);
+    }
+
+    private void ReachedDestination()
+    {
+        Debug.Log("reached destination !");
+        npcAgent.speed = 0.0f;
+        npcAnimator.SetBool("Walk", false);
+        GameObject.FindGameObjectWithTag("GameManagerTag").GetComponent<ScriptManager>().isInteractionTwoDone = false;
     }
 }

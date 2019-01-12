@@ -7,7 +7,7 @@ public class ScriptManager : MonoBehaviour
     public GameObject playerPrefab;
     GameObject player;
 
-    public enum State { noQuest, inQuest, questOne, questTwo, questThree, finalQuest };
+    public enum State { noQuest, inQuest, questOne, questTwo, questThree, sideQuest, finalQuest };
     public State gameState;
     public int currentQuest;
 
@@ -16,10 +16,12 @@ public class ScriptManager : MonoBehaviour
     [SerializeField] GameObject questOnePosition;
     [SerializeField] GameObject questTwoPosition;
     [SerializeField] GameObject questThreePosition;
+    [SerializeField] GameObject questFourPosition;
 
     [SerializeField] GameObject questOne;
     [SerializeField] GameObject questTwo;
     [SerializeField] GameObject questThree;
+    [SerializeField] GameObject chestPrefab;
 
     private string tagToFind;
 
@@ -27,19 +29,25 @@ public class ScriptManager : MonoBehaviour
     GameObject npcTwo;
     GameObject npcThree;
 
+    GameObject chest;
+
     bool isInteractionOneDone;
-    bool isInteractionTwoDone;
+    public bool isInteractionTwoDone;
+    public int interactionTwoCount;
     bool isInteractionThreeDone;
+    bool isInteractionChestDone;
 
     void Start()
     {
         gameState = State.noQuest;
+
 
         player = GameObject.Instantiate(playerPrefab, initialSpawnPoint.transform.position, Quaternion.identity);
 
         npcOne = GameObject.Instantiate(questOne, questOnePosition.transform.position, Quaternion.identity);
         isInteractionOneDone = false;
         isInteractionTwoDone = false;
+        interactionTwoCount = 0;
         isInteractionThreeDone = false;
     }
 
@@ -55,6 +63,12 @@ public class ScriptManager : MonoBehaviour
             gameState = State.inQuest;
             currentQuest = 1;
         }
+        else if (gameState == State.sideQuest)
+        {
+            chest = GameObject.Instantiate(chestPrefab, questThreePosition.transform.position, Quaternion.identity);
+            gameState = State.inQuest;
+            currentQuest = 2;
+        }
         else if (gameState == State.questTwo)
         {
             foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestTwoTag"))
@@ -63,7 +77,7 @@ public class ScriptManager : MonoBehaviour
             }
             npcThree = GameObject.Instantiate(questThree, questThreePosition.transform.position, Quaternion.identity);
             gameState = State.inQuest;
-            currentQuest = 2;
+            currentQuest = 3;
         }
         else if (gameState == State.questThree)
         {
@@ -72,13 +86,13 @@ public class ScriptManager : MonoBehaviour
                 item.GetComponent<RoundedTowerScript>().isActive = true;
             }
             gameState = State.inQuest;
-            currentQuest = 3;
+            currentQuest = 4;
         }
 
         CheckInteraction();
     }
 
-    void CheckInteraction()
+    public void CheckInteraction()
     {
         if (GameObject.FindGameObjectWithTag("npcOneTag") != null && !isInteractionOneDone)
         {
@@ -100,16 +114,24 @@ public class ScriptManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     isInteractionTwoDone = true;
-                    gameState = State.questTwo;
 
                     Destroy(GameObject.FindGameObjectWithTag("npcOneTag"));
 
                     npcTwo.GetComponent<QuestTwoScript>().isActive = true;
 
-                    foreach (GameObject item in GameObject.FindGameObjectsWithTag("EnemySpawnTag"))
+                    if (interactionTwoCount == 0)
                     {
-                        item.GetComponent<EnemySpawnScript>().isActive = true;
+                        foreach (GameObject item in GameObject.FindGameObjectsWithTag("EnemySpawnTag"))
+                        {
+                            item.GetComponent<EnemySpawnScript>().isActive = true;
+                        }
                     }
+                    else if (interactionTwoCount == 1)
+                    {
+                        gameState = State.sideQuest;
+                    }
+                    Debug.Log("interaction with quest 2");
+                    interactionTwoCount++;
                 }
             }
         }
@@ -122,6 +144,20 @@ public class ScriptManager : MonoBehaviour
                 {
                     isInteractionThreeDone = true;
                     gameState = State.questThree;
+                    Debug.Log("interaction with quest 4");
+                }
+            }
+        }
+
+        if (GameObject.FindGameObjectWithTag("ChestTag") != null && !isInteractionChestDone)
+        {
+            if (Vector3.Distance(player.transform.position, chest.transform.position) < 10.0)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    isInteractionChestDone = true;
+                    gameState = State.questTwo;
+                    Debug.Log("interaction with quest chest");
                 }
             }
         }

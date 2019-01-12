@@ -37,6 +37,7 @@ public class RoundedTowerScript : MonoBehaviour
                 if (firstTriggerCount < 4)
                 {
                     pig = Instantiate(pigPrefab, transform.position, Quaternion.identity);
+                    Physics.IgnoreCollision(pig.GetComponentInChildren<Collider>(), GetComponent<Collider>());
                     firstTriggerCount++;
                     Debug.Log("Pig Created");
                 }
@@ -48,6 +49,7 @@ public class RoundedTowerScript : MonoBehaviour
                 if (!isProducing && isFirstTriggerDone)
                 {
                     pig = Instantiate(pigPrefab, transform.position, Quaternion.identity);
+                    Physics.IgnoreCollision(pig.GetComponentInChildren<Collider>(), GetComponent<Collider>());
                     Debug.Log("Pig Created");
                     isProducing = true;
                     Invoke("Deactivate", spawningFrequency);
@@ -74,10 +76,10 @@ public class RoundedTowerScript : MonoBehaviour
                     Destroy(transform.parent.gameObject);
                 }
             }
-            if (other.gameObject.tag == "PigTag")
-            {
-                Physics.IgnoreCollision(other.collider, GetComponent<Collider>());
-            }
+            // if (other.gameObject.tag == "PigTag")
+            // {
+            //     Physics.IgnoreCollision(other.gameObject.GetComponent<Collider>(), GetComponent<Collider>(), true);
+            // }
         }
     }
 }

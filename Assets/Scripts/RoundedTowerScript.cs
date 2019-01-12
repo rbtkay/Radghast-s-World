@@ -6,8 +6,8 @@ public class RoundedTowerScript : MonoBehaviour
 {
     GameObject player;
     GameObject pig;
-    [SerializeField] float hitPoints;
-    [SerializeField] float maxHitPoints;
+    public float hitPoints;
+    public float maxHitPoints;
     [SerializeField] float triggerDistance;
     [SerializeField] int spawningFrequency;
     [SerializeField] GameObject pigPrefab;
@@ -19,7 +19,7 @@ public class RoundedTowerScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        isActive = false;
+        // isActive = false;
         maxHitPoints = 300;
         firstTriggerCount = 0;
         isFirstTriggerDone = false;

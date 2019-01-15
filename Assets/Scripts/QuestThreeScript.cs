@@ -10,7 +10,6 @@ public class QuestThreeScript : MonoBehaviour
     Animator npcAnimator;
     Vector3 escapeDestination;
 	bool isTouched;
-
     int escapeCount;
     string[] destinationString = { "EscapeOneTag", "EscapeTwoTag", "EscapeThreeTag", "EscapeFourTag" };
 

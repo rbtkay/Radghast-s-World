@@ -12,9 +12,9 @@ public class PlayerScript : MonoBehaviour
     ScriptManager sm;
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
-    double maxHitPoints, hitPoints, hitPointsRegen;
-    double maxManaPoints, manaPoints, manaPointsRegen;
-    double maxFocus;
+    public double maxHitPoints, hitPoints, hitPointsRegen;
+    public double maxManaPoints, manaPoints, manaPointsRegen;
+    public double maxFocus;
     public double focus;
     public int level;
     public int damage;
@@ -82,7 +82,7 @@ public class PlayerScript : MonoBehaviour
 
         if (hitPoints < 0)
         {
-            Destroy(gameObject);
+            game.GetComponent<Game>().LoadGame();
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button9))

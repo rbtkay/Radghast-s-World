@@ -55,7 +55,6 @@ public class Game : MonoBehaviour
     private Save CreateSaveGameObject()
     {
         Save save = new Save();
-        save.roundTowers = new List<string>();
         // savedRoundTowers = new List<GameObject>();        
 
         // foreach (GameObject enemy in liveEnemies)
@@ -67,16 +66,49 @@ public class Game : MonoBehaviour
         save.saveY = player.transform.position.y;
         save.saveZ = player.transform.position.z;
 
+        save.roundTowers = new List<string>();
+
         foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
         {
             save.roundTowers.Add(item.GetComponent<TowerIndexScript>().index.ToString() + " " +
-                                 item.GetComponentInChildren<RoundedTowerScript>().isActive + " " +
                                  item.transform.position.x + " " +
                                  item.transform.position.y + " " +
                                  item.transform.position.z);
-
-            // savedRoundTowers.Add(item);
         }
+
+        save.listNPC = new List<string>();
+
+        switch (GameObject.FindGameObjectWithTag("GameManagerTag").GetComponent<ScriptManager>().currentQuest)
+        {
+            case 1:
+                save.gameState = ScriptManager.State.questOne;
+                save.listNPC.Add("Quest2" + " " + GameObject.FindGameObjectWithTag("npcTwoTag").GetComponent<QuestTwoScript>().isActive);
+                break;
+
+            case 2:
+                save.gameState = ScriptManager.State.questTwo;
+                save.listNPC.Add("Quest3");
+                break;
+
+            case 3:
+                save.gameState = ScriptManager.State.questThree;
+                break;
+
+            case 4:
+                save.gameState = ScriptManager.State.sideQuest;
+                save.listNPC.Add("Chest");
+                break;
+
+            default:
+                break;
+        }
+// on load : destroy all npcs and let gamestate decide which to create
+        // if (GameObject.FindGameObjectWithTag("npcTwoTag").GetComponent<QuestTwoScript>().isActive)
+        // {
+        //     save.listNPC.Add("Quest2" + " " + GameObject.FindGameObjectWithTag("npcTwoTag").GetComponent<QuestTwoScript>().isActive);
+        // }
+
+
 
         // foreach(GameObject item in GameObject.FindGameObjectsWithTag("DarkTowerTag"))
         // {
@@ -102,7 +134,7 @@ public class Game : MonoBehaviour
         bf.Serialize(file, save);
         file.Close();
 
-        // Debug.Log("Game Saved at: " + Application.persistentDataPath + "/gamesave.save");
+        Debug.Log("Game Saved at: " + Application.persistentDataPath + "/gamesave.save");
     }
 
     public void LoadGame()
@@ -123,119 +155,38 @@ public class Game : MonoBehaviour
             Save save = (Save)bf.Deserialize(file);
             file.Close();
             player.transform.position = new Vector3(save.saveX, save.saveY, save.saveZ);
-
-
+            player.GetComponent<PlayerScript>().hitPoints = player.GetComponent<PlayerScript>().maxHitPoints;
+            player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
 
             foreach (string item in save.roundTowers)
             {
                 Debug.Log("Tower bool" + item.Split(' ')[1]);
-                GameObject temp = GameObject.Instantiate(roundTowerPrefab, new Vector3(float.Parse(item.Split(' ')[2]),
-                                                         float.Parse(item.Split(' ')[3]),
-                                                         float.Parse(item.Split(' ')[4])),
+                GameObject temp = GameObject.Instantiate(roundTowerPrefab, new Vector3(float.Parse(item.Split(' ')[1]),
+                                                         float.Parse(item.Split(' ')[2]),
+                                                         float.Parse(item.Split(' ')[3])),
                                                          Quaternion.identity);
                 // Debug.Log(temp.transform.position);
 
                 temp.GetComponent<TowerIndexScript>().index = Int32.Parse(item.Split(' ')[0]);
-                temp.GetComponentInChildren<RoundedTowerScript>().isActive = Boolean.Parse(item.Split(' ')[1]);
 
                 if (temp.GetComponent<TowerIndexScript>().index == 0
                 || temp.GetComponent<TowerIndexScript>().index == 1
                 || temp.GetComponent<TowerIndexScript>().index == 2)
                 {
-                    temp.transform.GetChild(3).tag = "QuestTwoTag";
+                    temp.transform.GetChild(4).tag = "QuestTwoTag";
                 }
                 else
                 {
-                    temp.transform.GetChild(3).tag = "QuestOneTag";
+                    temp.transform.GetChild(4).tag = "QuestOneTag";
                 }
-                // Boolean.Parse(item.Split(' ')[1].ToLower())
-                // foreach (GameObject rt in currentRoundTowers)
-                // {
-                //     if (rt.GetComponent<TowerIndexScript>().index == temp.GetComponent<TowerIndexScript>().index)
-                //     {
-                //         rt.GetComponent<RoundedTowerScript>().hitPoints = rt.GetComponent<RoundedTowerScript>().maxHitPoints;
-                //         rt.GetComponent<RoundedTowerScript>().isActive = temp.GetComponent<RoundedTowerScript>().isActive;
-                //     }
-                //     else
-                //     {
-                //         Destroy(rt);
-                //     }
-                //     Destroy(temp);
-                // }
-                // temp.transform.position = new Vector3(float.Parse(item.Split(' ')[0]));
-                // if (!currentRoundTowers.Contains())
             }
+            Destroy(GameObject.FindGameObjectWithTag("npcTwoTag"));
+            Destroy(GameObject.FindGameObjectWithTag("npcThreeTag"));
+            Destroy(GameObject.FindGameObjectWithTag("ChestTag"));
 
-            // foreach(GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
-            // {
-            //     if (item.GetComponent<TowerIndexScript>().index == )
-            // }
-
-
-            // if (GameObject.FindGameObjectsWithTag("RoundTowerTag").Length <= save.roundTowers.Count)
-            // {
-            // foreach (string item in save.roundTowers)
-            // {
-            //     if (!currentRoundTowersIndex.Contains(item))
-            //     {
-            //         GameObject temp = GameObject.Instantiate(copyRoundTowers[item]);
-            //     }
-            //     else
-            //     {
-            //         originalRoundTowers[item] = copyRoundTowers[item];
-            //     }
-            // }
-            // }
-            // else
-            // {
-            // foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
-            // {
-            //     if (!save.roundTowers.Contains(item.GetComponent<TowerIndexScript>().index))
-            //     {
-            //         Destroy(item);
-            //     }
-            // else
-            // {
-            //     item.GetComponentInChildren<RoundedTowerScript>().hitPoints = item.GetComponentInChildren<RoundedTowerScript>().maxHitPoints;
-            // }
-            // }
-            // }
-
-            // foreach(GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
-            // {
-            //     if (save.roundTowers.Contains(item.GetComponent<TowerIndexScript>().index))
-            //     {
-            //         item.GetComponentInChildren<RoundedTowerScript>().hitPoints = item.GetComponentInChildren<RoundedTowerScript>().maxHitPoints;
-            //     }
-            // }
-            // foreach(int item in save.roundTowers)
-            // {
-            //     if (!currentRoundTowersIndex.Contains(item))
-            //     {
-            //         GameObject.Instantiate(originalRoundTowers[item]);
-            //     }
-            //     else
-            //     {
-            //         foreach (GameObject tower in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
-            //         {
-            //             if (tower.GetComponent<TowerIndexScript>().index == item)
-            //             {
-            //                 tower.GetComponentInChildren<RoundedTowerScript>().hitPoints = tower.GetComponentInChildren<RoundedTowerScript>().maxHitPoints;
-            //             }
-            //             else
-            //             {
-            //                 Destroy(tower);
-            //             }
-            //         }
-            //     }
-            // }
-            // foreach(GameObject item in save.darkTowers)
-            // {
-            //     GameObject DarkTower = item;
-            // }
-            // player.transform.position = savePoints[save.savePointIndex].transform.position;
             Debug.Log("Game Loaded");
             Unpause();
+            GameObject.FindGameObjectWithTag("GameManagerTag").GetComponent<ScriptManager>().gameState = save.gameState;
         }
         else
         {

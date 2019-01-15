@@ -63,12 +63,6 @@ public class ScriptManager : MonoBehaviour
             gameState = State.inQuest;
             currentQuest = 1;
         }
-        else if (gameState == State.sideQuest)
-        {
-            chest = GameObject.Instantiate(chestPrefab, questThreePosition.transform.position, Quaternion.identity);
-            gameState = State.inQuest;
-            currentQuest = 2;
-        }
         else if (gameState == State.questTwo)
         {
             foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestTwoTag"))
@@ -77,14 +71,20 @@ public class ScriptManager : MonoBehaviour
             }
             npcThree = GameObject.Instantiate(questThree, questThreePosition.transform.position, Quaternion.identity);
             gameState = State.inQuest;
-            currentQuest = 3;
+            currentQuest = 2;
         }
         else if (gameState == State.questThree)
         {
             foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestThreeTag"))
             {
-                item.GetComponent<RoundedTowerScript>().isActive = true;
+                item.GetComponent<DarkTowerScript>().isActive = true;
             }
+            gameState = State.inQuest;
+            currentQuest = 3;
+        }
+        else if (gameState == State.sideQuest)
+        {
+            chest = GameObject.Instantiate(chestPrefab, questThreePosition.transform.position, Quaternion.identity);
             gameState = State.inQuest;
             currentQuest = 4;
         }

@@ -12,5 +12,5 @@ public class Save
     public ScriptManager.State gameState;
     public float saveX, saveY, saveZ;
     public List<string> roundTowers;
-    // public List<GameObject> darkTowers = new List<GameObject>();
+    public List<string> listNPC;
 }

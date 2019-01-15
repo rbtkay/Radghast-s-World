@@ -113,6 +113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 30
+  particleSystem: {fileID: 198622929537315294, guid: b0aa11c9046597c43a6792614cabfdaa,
+    type: 2}
 --- !u!135 &135935011212618564
 SphereCollider:
   m_ObjectHideFlags: 1

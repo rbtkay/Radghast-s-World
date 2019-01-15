@@ -243,3 +243,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceSave: 3
   firePrefab: {fileID: 1086683575141900, guid: 03fa86e3f9b29fb40a962e50699f2f7f, type: 2}
+  campfireMenu: {fileID: 0}
+  btnLvlUp: {fileID: 0}
+  btnUpgradeHealth: {fileID: 0}
+  btnUpgradeMana: {fileID: 0}
+  Game: {fileID: 0}

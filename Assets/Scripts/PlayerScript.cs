@@ -19,7 +19,7 @@ public class PlayerScript : MonoBehaviour
     public int level;
     public int damage;
     public double souls;
-    public GameObject healthBar, healthText, manaBar, manaText, soulsText, focusBar;
+    public GameObject healthBar, healthText, manaBar, manaText, soulsText, focusBar, levelText;
     public GameObject basicAttackPrefab;
     bool castingOwl;
     [SerializeField] GameObject owlSentinelPrefab;
@@ -67,6 +67,7 @@ public class PlayerScript : MonoBehaviour
         manaText = GameObject.FindGameObjectWithTag("ManaTextTag");
         soulsText = GameObject.FindGameObjectWithTag("SoulsTextTag");
         focusBar = GameObject.FindGameObjectWithTag("FocusBarTag");
+        levelText = GameObject.FindGameObjectWithTag("LevelTextTag");
 
         healthText.GetComponent<Text>().text = ((int)(hitPoints)).ToString() + " / " + ((int)(maxHitPoints)).ToString();
         healthBar.GetComponent<Image>().fillAmount = (float)(hitPoints / maxHitPoints);
@@ -77,6 +78,15 @@ public class PlayerScript : MonoBehaviour
         soulsText.GetComponent<Text>().text = "Souls: " + souls.ToString();
 
         focusBar.GetComponent<Image>().fillAmount = (float)(focus / maxFocus);
+
+        levelText.GetComponent<Text>().text = "Level: " + level.ToString();
+
+        maxHitPoints = 95 + level * 5;
+        hitPointsRegen = 0.15 + level * 0.05;
+        maxManaPoints = 95 + level * 5;
+        manaPointsRegen = 0.05 + level * 0.15;
+        damage = 8 + level * 2;
+        maxFocus = 70 + sm.currentQuest * 30;
 
         PlayerRegen();
 

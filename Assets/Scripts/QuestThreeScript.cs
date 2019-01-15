@@ -9,7 +9,9 @@ public class QuestThreeScript : MonoBehaviour
     NavMeshAgent npcAgent;
     Animator npcAnimator;
     Vector3 escapeDestination;
-	bool isTouched;
+    bool isTouched;
+    public bool isActive;
+
     int escapeCount;
     string[] destinationString = { "EscapeOneTag", "EscapeTwoTag", "EscapeThreeTag", "EscapeFourTag" };
 
@@ -18,12 +20,13 @@ public class QuestThreeScript : MonoBehaviour
     {
         npcAnimator = GetComponent<Animator>();
         npcAgent = GetComponent<NavMeshAgent>();
-		isTouched = false;
+        isTouched = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         player = GameObject.FindGameObjectWithTag("Player");
 
         if (npcAgent.speed == 0 && Vector3.Distance(player.transform.position, transform.position) < 10)
@@ -46,7 +49,7 @@ public class QuestThreeScript : MonoBehaviour
 
         npcAgent.SetDestination(escapeDestination);
         npcAnimator.SetBool("SprintJump", true);
-        npcAgent.speed = 0.5f;
+        npcAgent.speed = 0.2f;
     }
 
     void StopEscape()

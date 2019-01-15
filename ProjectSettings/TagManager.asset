@@ -33,6 +33,11 @@ TagManager:
   - DestinationQuestTwoTag
   - FocusBarTag
   - ChestTag
+  - EscapeOneTag
+  - EscapeTwoTag
+  - EscapeThreeTag
+  - EscapeFourTag
+  - OwlGuideTag
   layers:
   - Default
   - TransparentFX

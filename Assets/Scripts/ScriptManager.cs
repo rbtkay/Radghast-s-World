@@ -16,7 +16,7 @@ public class ScriptManager : MonoBehaviour
     [SerializeField] GameObject questOnePosition;
     [SerializeField] GameObject questTwoPosition;
     [SerializeField] GameObject questThreePosition;
-    [SerializeField] GameObject questFourPosition;
+    [SerializeField] GameObject sideQuestPosition;
 
     [SerializeField] GameObject questOne;
     [SerializeField] GameObject questTwo;
@@ -70,7 +70,7 @@ public class ScriptManager : MonoBehaviour
                 item.GetComponent<RoundedTowerScript>().isActive = true;
             }
             npcThree = GameObject.Instantiate(questThree, questThreePosition.transform.position, Quaternion.identity);
-            gameState = State.inQuest;
+            gameState = State.questThree;
             currentQuest = 2;
         }
         else if (gameState == State.questThree)

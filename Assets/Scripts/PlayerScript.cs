@@ -23,9 +23,12 @@ public class PlayerScript : MonoBehaviour
     public int damage;
     public double souls;
     public GameObject healthBar, healthText, manaBar, manaText, soulsText, focusBar, levelText;
-    public GameObject basicAttackPrefab;
+    public GameObject basicAttackPrefab, chainFrostPrefab;
     bool castingOwl;
     [SerializeField] GameObject owlSentinelPrefab;
+    [SerializeField] GameObject owlGuidePrefab;
+
+    [SerializeField] GameObject wallPlayerPrefab;
     float owlLife;
     bool testingBool;
     public Vector3 spawnPoint;
@@ -88,12 +91,21 @@ public class PlayerScript : MonoBehaviour
                 Destroy(GameObject.FindGameObjectWithTag("OwlTag"));
             }
         }
-
-
-        if (Time.timeSinceLevelLoad - fireTime > 1.2f && isFiring)
+        if (Input.GetKeyDown(KeyCode.Joystick1Button8) || Input.GetKeyDown(KeyCode.Z))
         {
-            isFiring = false;
+            Debug.Log("owl");
+            if (!GameObject.FindGameObjectWithTag("OwlGuideTag"))
+            {
+                GameObject owlGuide = GameObject.Instantiate(owlGuidePrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Destroy(GameObject.FindGameObjectWithTag("OwlGuideTag"));
+            }
         }
+
+
+
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -113,12 +125,25 @@ public class PlayerScript : MonoBehaviour
         // {
         //     UseManaPotion();
         // }
-
-        if (Input.GetAxis("Fire1") == -1)
+        if (!isFiring)
         {
-            if (!isFiring)
+            if (Input.GetAxis("Fire1") == -1)
             {
                 BasicAttack();
+            }
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button2))
+            {
+                ChainFrost();
+            }
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button1))
+            {
+                Debug.Log("B");
+                IceBlock();
+            }
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button0))
+            {
+                Debug.Log("A");
+                Blink();
             }
         }
 
@@ -149,7 +174,38 @@ public class PlayerScript : MonoBehaviour
             PlayerMove();
         }
 
+        if (Time.timeSinceLevelLoad - fireTime > 1.2f && isFiring)
+        {
+            isFiring = false;
+        }
         Input.ResetInputAxes();
+    }
+
+    void Blink()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, 20.0f))
+        {
+            return;
+        }
+        else
+        {
+            transform.position = transform.position + transform.forward * 20.0f;
+        }
+    }
+
+
+    void IceBlock()
+    {
+        fireTime = Time.timeSinceLevelLoad;
+        mageAnimator.SetTrigger("Attack1Trigger");
+        isFiring = true;
+        Invoke("CastIceBlock", 0.9f);
+        // CastBasicAttack();
+    }
+    void CastIceBlock()
+    {
+        Vector3 blockPosition = transform.position + transform.forward * 10f;
+        GameObject basicAttack = GameObject.Instantiate(wallPlayerPrefab, blockPosition, transform.rotation);
     }
 
     void PlayerRegen()
@@ -230,15 +286,31 @@ public class PlayerScript : MonoBehaviour
         fireTime = Time.timeSinceLevelLoad;
         mageAnimator.SetTrigger("Attack1Trigger");
         isFiring = true;
-        Invoke("CastSpell", 0.9f);
-        // CastSpell();
+        Invoke("CastBasicAttack", 0.9f);
+        // CastBasicAttack();
     }
 
-    private void CastSpell()
+    private void CastBasicAttack()
     {
         Vector3 ballPosition = transform.position + transform.forward * 5f;
         GameObject basicAttack = GameObject.Instantiate(basicAttackPrefab, ballPosition + new Vector3(0, 5f, 0), transform.rotation);
     }
+
+    void ChainFrost()
+    {
+        fireTime = Time.timeSinceLevelLoad;
+        mageAnimator.SetTrigger("Attack1Trigger");
+        isFiring = true;
+        Invoke("CastChainFrost", 0.9f);
+        // CastBasicAttack();
+    }
+    void CastChainFrost()
+    {
+        Vector3 ballPosition = transform.position + transform.forward * 5f;
+        GameObject basicAttack = GameObject.Instantiate(chainFrostPrefab, ballPosition + new Vector3(0, 5f, 0), transform.rotation);
+    }
+
+    // private void 
 
     private void OnCollisionEnter(Collision other)
     {

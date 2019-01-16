@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class OwlGuideScript : MonoBehaviour
 {
-    public GameObject owlGuidePrefab;
+    // public GameObject owlGuidePrefab;
     [SerializeField] float owlLifeTime;
     TrailRenderer trailRenderer;
     NavMeshAgent navMeshAgent;
@@ -35,7 +35,24 @@ public class OwlGuideScript : MonoBehaviour
 
     string GetNpc()
     {
-		string npc = string.Empty;
-		return npc;
+        Debug.Log("petit debug");
+        if (GameObject.FindGameObjectWithTag("npcThreeTag"))
+        {
+            return GameObject.FindGameObjectWithTag("npcThreeTag").tag;
+        }
+        else if (GameObject.FindGameObjectWithTag("npcTwoTag"))
+        {
+            return GameObject.FindGameObjectWithTag("npcTwoTag").tag;
+        }
+        else if (GameObject.FindGameObjectWithTag("ChestTag"))
+        {
+            return GameObject.FindGameObjectWithTag("ChestTag").tag;
+        }
+        else if (GameObject.FindGameObjectWithTag("npcOneTag"))
+        {
+            return GameObject.FindGameObjectWithTag("npcOneTag").tag;
+        }
+
+        return string.Empty;
     }
 }

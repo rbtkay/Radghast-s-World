@@ -38,6 +38,12 @@ TagManager:
   - EscapeThreeTag
   - EscapeFourTag
   - OwlGuideTag
+  - LevelTextTag
+  - BtnLevelUpTag
+  - BtnHealthTag
+  - BtnManaTag
+  - ImgHealthPot
+  - ImgManaPot
   layers:
   - Default
   - TransparentFX

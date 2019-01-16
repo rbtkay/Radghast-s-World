@@ -9,8 +9,7 @@ using UnityEngine.UI;
 public class Game : MonoBehaviour
 {
     [SerializeField] GameObject menu;
-    [SerializeField] Button resumeButton;
-    [SerializeField] Button newGameButton;
+    [SerializeField] Button btnResumeButton, btnNewGameButton;
     [SerializeField] GameObject spawnPoint;
     public List<GameObject> savedRoundTowers, currentRoundTowers;
     public GameObject[] originalRoundTowers;
@@ -51,90 +50,11 @@ public class Game : MonoBehaviour
             }
         }
     }
-
-    private Save CreateSaveGameObject()
-    {
-        Save save = new Save();
-        // savedRoundTowers = new List<GameObject>();        
-
-        // foreach (GameObject enemy in liveEnemies)
-        // {
-        //     save.livingTargetPositions.Add(enemy.transform.position);
-        // }
-
-        save.saveX = player.transform.position.x;
-        save.saveY = player.transform.position.y;
-        save.saveZ = player.transform.position.z;
-
-        save.roundTowers = new List<string>();
-
-        foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
-        {
-            save.roundTowers.Add(item.GetComponent<TowerIndexScript>().index.ToString() + " " +
-                                 item.transform.position.x + " " +
-                                 item.transform.position.y + " " +
-                                 item.transform.position.z);
-        }
-
-        save.listNPC = new List<string>();
-
-        switch (GameObject.FindGameObjectWithTag("GameManagerTag").GetComponent<ScriptManager>().currentQuest)
-        {
-            case 1:
-                save.gameState = ScriptManager.State.questOne;
-                save.listNPC.Add("Quest2" + " " + GameObject.FindGameObjectWithTag("npcTwoTag").GetComponent<QuestTwoScript>().isActive);
-                break;
-
-            case 2:
-                save.gameState = ScriptManager.State.questTwo;
-                save.listNPC.Add("Quest3");
-                break;
-
-            case 3:
-                save.gameState = ScriptManager.State.questThree;
-                break;
-
-            case 4:
-                save.gameState = ScriptManager.State.sideQuest;
-                save.listNPC.Add("Chest");
-                break;
-
-            default:
-                break;
-        }
-// on load : destroy all npcs and let gamestate decide which to create
-        // if (GameObject.FindGameObjectWithTag("npcTwoTag").GetComponent<QuestTwoScript>().isActive)
-        // {
-        //     save.listNPC.Add("Quest2" + " " + GameObject.FindGameObjectWithTag("npcTwoTag").GetComponent<QuestTwoScript>().isActive);
-        // }
-
-
-
-        // foreach(GameObject item in GameObject.FindGameObjectsWithTag("DarkTowerTag"))
-        // {
-        //     save.darkTowers.Add(item);
-        //     Destroy(item);
-        // }
-
-        return save;
-    }
-
     public void NewGame()
     {
         ClearEnemies();
-        ResetPlayerPosition();
+        player.transform.position = spawnPoint.transform.position;
         Unpause();
-    }
-
-    public void SaveGame()
-    {
-        Save save = CreateSaveGameObject();
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
-        bf.Serialize(file, save);
-        file.Close();
-
-        Debug.Log("Game Saved at: " + Application.persistentDataPath + "/gamesave.save");
     }
 
     public void LoadGame()
@@ -154,9 +74,20 @@ public class Game : MonoBehaviour
             FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
             Save save = (Save)bf.Deserialize(file);
             file.Close();
+
             player.transform.position = new Vector3(save.saveX, save.saveY, save.saveZ);
+            player.GetComponent<PlayerScript>().level = save.playerLevel;
+            player.GetComponent<PlayerScript>().maxHitPoints = 95 + player.GetComponent<PlayerScript>().level * 5;
+            player.GetComponent<PlayerScript>().hitPointsRegen = 0.15 + player.GetComponent<PlayerScript>().level * 0.05;
+            player.GetComponent<PlayerScript>().maxManaPoints = 95 + player.GetComponent<PlayerScript>().level * 5;
+            player.GetComponent<PlayerScript>().manaPointsRegen = 0.05 + player.GetComponent<PlayerScript>().level * 0.15;
+            player.GetComponent<PlayerScript>().damage = 8 + player.GetComponent<PlayerScript>().level * 2;
             player.GetComponent<PlayerScript>().hitPoints = player.GetComponent<PlayerScript>().maxHitPoints;
             player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
+            player.GetComponent<PlayerScript>().souls = save.playerSouls;
+            player.GetComponent<PlayerScript>().maxHPPots = save.maxHPPots;
+            player.GetComponent<PlayerScript>().maxMPPots = save.maxMPPots;
+            
 
             foreach (string item in save.roundTowers)
             {
@@ -180,6 +111,7 @@ public class Game : MonoBehaviour
                     temp.transform.GetChild(4).tag = "QuestOneTag";
                 }
             }
+
             Destroy(GameObject.FindGameObjectWithTag("npcTwoTag"));
             Destroy(GameObject.FindGameObjectWithTag("npcThreeTag"));
             Destroy(GameObject.FindGameObjectWithTag("ChestTag"));
@@ -197,8 +129,8 @@ public class Game : MonoBehaviour
     public void Pause()
     {
         menu.SetActive(true);
-        newGameButton.Select();
-        resumeButton.Select();
+        btnNewGameButton.Select();
+        btnResumeButton.Select();
         isPaused = true;
         Time.timeScale = 0;
     }
@@ -227,10 +159,4 @@ public class Game : MonoBehaviour
             enemySpawn.GetComponent<EnemySpawnScript>().countPig = 0;
         }
     }
-
-    private void ResetPlayerPosition()
-    {
-        player.transform.position = spawnPoint.transform.position;
-    }
-
 }

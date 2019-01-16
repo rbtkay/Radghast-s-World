@@ -13,13 +13,16 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
     public double maxHitPoints, hitPoints, hitPointsRegen;
+    public Sprite fullHPPot, halfHPPot, emptyHPPot, fullMPPot, halfMPPot, emptyMPPot;
     public double maxManaPoints, manaPoints, manaPointsRegen;
+    public int maxHPPots, HPPots, maxMPPots, MPPots;
+    public GameObject healthPotion, manaPotion;
     public double maxFocus;
     public double focus;
     public int level;
     public int damage;
     public double souls;
-    public GameObject healthBar, healthText, manaBar, manaText, soulsText, focusBar;
+    public GameObject healthBar, healthText, manaBar, manaText, soulsText, focusBar, levelText;
     public GameObject basicAttackPrefab;
     bool castingOwl;
     [SerializeField] GameObject owlSentinelPrefab;
@@ -55,28 +58,17 @@ public class PlayerScript : MonoBehaviour
         fireTime = Time.timeSinceLevelLoad;
         isFiring = false;
         mageAnimator = GetComponent<Animator>();
+
+        maxHPPots = 1;
+        HPPots = maxHPPots;
+        maxMPPots = 1;
+        MPPots = maxMPPots;
     }
 
     // Update is called once per frame
     void Update()
     {
-        game = GameObject.FindGameObjectWithTag("GameTag");
-        healthBar = GameObject.FindGameObjectWithTag("HealthBarTag");
-        healthText = GameObject.FindGameObjectWithTag("HealthTextTag");
-        manaBar = GameObject.FindGameObjectWithTag("ManaBarTag");
-        manaText = GameObject.FindGameObjectWithTag("ManaTextTag");
-        soulsText = GameObject.FindGameObjectWithTag("SoulsTextTag");
-        focusBar = GameObject.FindGameObjectWithTag("FocusBarTag");
-
-        healthText.GetComponent<Text>().text = ((int)(hitPoints)).ToString() + " / " + ((int)(maxHitPoints)).ToString();
-        healthBar.GetComponent<Image>().fillAmount = (float)(hitPoints / maxHitPoints);
-
-        manaText.GetComponent<Text>().text = ((int)(manaPoints)).ToString() + " / " + ((int)(maxManaPoints)).ToString();
-        manaBar.GetComponent<Image>().fillAmount = (float)(manaPoints / maxManaPoints);
-
-        soulsText.GetComponent<Text>().text = "Souls: " + souls.ToString();
-
-        focusBar.GetComponent<Image>().fillAmount = (float)(focus / maxFocus);
+        SetUp();
 
         PlayerRegen();
 
@@ -101,6 +93,16 @@ public class PlayerScript : MonoBehaviour
         if (Time.timeSinceLevelLoad - fireTime > 1.2f && isFiring)
         {
             isFiring = false;
+        }
+
+        if (Input.GetAxis("Potion") == 1)
+        {
+            UseHealthPotion();
+        }
+
+        if (Input.GetAxis("Potion") == -1)
+        {
+            UseManaPotion();
         }
 
         if (Input.GetAxis("Fire1") == -1)
@@ -137,7 +139,6 @@ public class PlayerScript : MonoBehaviour
         {
             PlayerMove();
         }
-
 
         Input.ResetInputAxes();
     }
@@ -242,6 +243,71 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    void SetUp()
+    {
+        game = GameObject.FindGameObjectWithTag("GameTag");
+        healthBar = GameObject.FindGameObjectWithTag("HealthBarTag");
+        healthText = GameObject.FindGameObjectWithTag("HealthTextTag");
+        manaBar = GameObject.FindGameObjectWithTag("ManaBarTag");
+        manaText = GameObject.FindGameObjectWithTag("ManaTextTag");
+        soulsText = GameObject.FindGameObjectWithTag("SoulsTextTag");
+        focusBar = GameObject.FindGameObjectWithTag("FocusBarTag");
+        levelText = GameObject.FindGameObjectWithTag("LevelTextTag");
+        healthPotion = GameObject.FindGameObjectWithTag("ImgHealthPot");
+        manaPotion = GameObject.FindGameObjectWithTag("ImgManaPot");
+
+        healthText.GetComponent<Text>().text = ((int)(hitPoints)).ToString() + " / " + ((int)(maxHitPoints)).ToString();
+        healthBar.GetComponent<Image>().fillAmount = (float)(hitPoints / maxHitPoints);
+
+        manaText.GetComponent<Text>().text = ((int)(manaPoints)).ToString() + " / " + ((int)(maxManaPoints)).ToString();
+        manaBar.GetComponent<Image>().fillAmount = (float)(manaPoints / maxManaPoints);
+
+        soulsText.GetComponent<Text>().text = "Souls: " + souls.ToString();
+
+        focusBar.GetComponent<Image>().fillAmount = (float)(focus / maxFocus);
+
+        levelText.GetComponent<Text>().text = "Level: " + level.ToString();
+
+        maxFocus = 70 + sm.currentQuest * 30;
+        if (HPPots == maxHPPots)
+            healthPotion.GetComponent<Image>().sprite = fullHPPot;
+        else if (HPPots < maxHPPots && HPPots != 0)
+            healthPotion.GetComponent<Image>().sprite = halfHPPot;
+        else
+            healthPotion.GetComponent<Image>().sprite = emptyHPPot;
+
+        if (MPPots == maxMPPots)
+            manaPotion.GetComponent<Image>().sprite = fullMPPot;
+        else if (MPPots < maxMPPots && MPPots != 0)
+            manaPotion.GetComponent<Image>().sprite = halfMPPot;
+        else
+            manaPotion.GetComponent<Image>().sprite = emptyMPPot;
+
+        healthPotion.GetComponentInChildren<Text>().text = HPPots + "/" + maxHPPots;
+        manaPotion.GetComponentInChildren<Text>().text = MPPots + "/" + maxMPPots;
+    }
+
+    void UseHealthPotion()
+    {
+        if (HPPots > 0 && hitPoints < maxHitPoints)
+        {
+            double amountToHeal = 0.3 * maxHitPoints;
+            hitPoints += amountToHeal;
+            if (hitPoints >= maxHitPoints)
+                hitPoints = maxHitPoints;
+        }
+    }
+
+    void UseManaPotion()
+    {
+        if (MPPots > 0 && manaPoints < maxManaPoints)
+        {
+            double amountToHeal = 0.3 * maxManaPoints;
+            manaPoints += amountToHeal;
+            if (manaPoints >= maxManaPoints)
+                manaPoints = maxManaPoints;
+        }
+    }
     void FootR() { }
 
     void FootL() { }

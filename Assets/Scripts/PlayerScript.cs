@@ -240,6 +240,10 @@ public class PlayerScript : MonoBehaviour
             }
             other.gameObject.GetComponent<PigScript>().pigState = PigScript.State.ready;
         }
+        if (other.gameObject.tag == "ShockWave")
+        {
+            Debug.Log("burning");
+        }
     }
 
     void FootR() { }

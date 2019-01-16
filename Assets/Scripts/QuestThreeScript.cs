@@ -26,20 +26,20 @@ public class QuestThreeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        player = GameObject.FindGameObjectWithTag("Player");
-
-        if (npcAgent.speed == 0 && Vector3.Distance(player.transform.position, transform.position) < 10)
+        if (!isTouched)
         {
-            Escape();
+            player = GameObject.FindGameObjectWithTag("Player");
+
+            if (npcAgent.speed == 0 && Vector3.Distance(player.transform.position, transform.position) < 10)
+            {
+                Escape();
+            }
+
+            if (Vector3.Distance(escapeDestination, transform.position) < 10)
+            {
+                StopEscape();
+            }
         }
-
-        if (Vector3.Distance(escapeDestination, transform.position) < 10)
-        {
-            StopEscape();
-        }
-
-
     }
 
     void Escape()
@@ -49,12 +49,21 @@ public class QuestThreeScript : MonoBehaviour
 
         npcAgent.SetDestination(escapeDestination);
         npcAnimator.SetBool("SprintJump", true);
-        npcAgent.speed = 0.2f;
+        npcAgent.speed = 0.01f;
     }
 
     void StopEscape()
     {
         npcAnimator.SetBool("SprintJump", false);
         npcAgent.speed = 0;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.tag == "BasicAttack")
+        {
+            StopEscape();
+            isTouched = true;
+        }
     }
 }

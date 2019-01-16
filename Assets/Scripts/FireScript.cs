@@ -23,28 +23,32 @@ public class FireScript : MonoBehaviour
     }
     void Update()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        lvlUpCost = player.GetComponent<PlayerScript>().level * 1;
-        upgradeHealthCost = player.GetComponent<PlayerScript>().maxHPPots * 2500;
-        upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
-        if (player.GetComponent<PlayerScript>().souls < lvlUpCost)
+        if (GameObject.FindGameObjectWithTag("Player"))
         {
-            btnLvlUp.interactable = false;
-        }
-        else
-        {
-            btnLvlUp.interactable = true;
-        }
 
-        if (player.GetComponent<PlayerScript>().souls < upgradeHealthCost)
-        {
-            btnUpgradeHealth.interactable = false;
-        }
-        else
-        {
-            btnUpgradeHealth.interactable = true;
-        }
+            player = GameObject.FindGameObjectWithTag("Player");
+            lvlUpCost = player.GetComponent<PlayerScript>().level * 1;
+            upgradeHealthCost = player.GetComponent<PlayerScript>().maxHPPots * 2500;
+            upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
+            if (player.GetComponent<PlayerScript>().souls < lvlUpCost)
+            {
+                btnLvlUp.interactable = false;
+            }
+            else
+            {
+                btnLvlUp.interactable = true;
+            }
 
+            if (player.GetComponent<PlayerScript>().souls < upgradeHealthCost)
+            {
+                btnUpgradeHealth.interactable = false;
+            }
+            else
+            {
+                btnUpgradeHealth.interactable = true;
+            }
+
+       
         if (player.GetComponent<PlayerScript>().souls < upgradeManaCost)
         {
             btnUpgradeMana.interactable = false;
@@ -60,19 +64,21 @@ public class FireScript : MonoBehaviour
         if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
         {
             if (Input.GetKeyDown(KeyCode.Return))
+
             {
-                Debug.Log("SPACE");
-                GameObject fire = GameObject.Instantiate(firePrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
-                isOn = true;
+                    Debug.Log("SPACE");
+                    GameObject fire = GameObject.Instantiate(firePrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+                    isOn = true;
 
-                currentSouls = player.GetComponent<PlayerScript>().souls;
-                campfireMenu.SetActive(true);
-                btnUpgradeHealth.Select();
-                btnLvlUp.Select();
+                    currentSouls = player.GetComponent<PlayerScript>().souls;
+                    campfireMenu.SetActive(true);
+                    btnUpgradeHealth.Select();
+                    btnLvlUp.Select();
 
 
-                GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = true;
-                Time.timeScale = 0;
+                    GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = true;
+                    Time.timeScale = 0;
+                }
             }
         }
     }

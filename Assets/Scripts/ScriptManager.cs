@@ -17,11 +17,13 @@ public class ScriptManager : MonoBehaviour
     [SerializeField] GameObject questTwoPosition;
     [SerializeField] GameObject questThreePosition;
     [SerializeField] GameObject sideQuestPosition;
+    [SerializeField] GameObject finalQuestPosition;
 
     [SerializeField] GameObject questOne;
     [SerializeField] GameObject questTwo;
     [SerializeField] GameObject questThree;
     [SerializeField] GameObject chestPrefab;
+    [SerializeField] GameObject bullPrefab;
 
     private string tagToFind;
 
@@ -86,7 +88,13 @@ public class ScriptManager : MonoBehaviour
         }
         else if (gameState == State.sideQuest)
         {
-            chest = GameObject.Instantiate(chestPrefab, sideQuestPosition.transform.position, Quaternion.identity);
+            chest = GameObject.Instantiate(chestPrefab, sideQuestPosition.transform.position, sideQuestPosition.transform.rotation);
+            gameState = State.inQuest;
+            currentQuest = 4;
+        }
+        else if (gameState == State.finalQuest)
+        {
+            GameObject boss = GameObject.Instantiate(bullPrefab, finalQuestPosition.transform.position, finalQuestPosition.transform.rotation);
             gameState = State.inQuest;
             currentQuest = 4;
         }
@@ -145,7 +153,7 @@ public class ScriptManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     isInteractionThreeDone = true;
-                    gameState = State.questThree;
+                    gameState = State.finalQuest;
                     Debug.Log("interaction with quest 4");
                 }
             }

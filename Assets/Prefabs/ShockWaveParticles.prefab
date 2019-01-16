@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4165732521972078}
   - component: {fileID: 198536377907729362}
   - component: {fileID: 199056289879840376}
-  - component: {fileID: 135735826199235566}
+  - component: {fileID: 114242535763385612}
   m_Layer: 0
   m_Name: ShockWaveParticles
   m_TagString: ShockWaveTag
@@ -42,18 +42,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &135735826199235566
-SphereCollider:
+--- !u!114 &114242535763385612
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1865281278834148}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33aaf0433d549524ea4eee3f9c8512a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198536377907729362
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3454,9 +3453,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 3
-    type: 0
+    type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
@@ -3636,12 +3635,12 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
-    collisionShape0: {fileID: 135735826199235566}
+    collisionShape0: {fileID: 0}
     collisionShape1: {fileID: 0}
     collisionShape2: {fileID: 0}
     collisionShape3: {fileID: 0}

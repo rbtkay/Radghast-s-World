@@ -122,6 +122,7 @@ public class FireScript : MonoBehaviour
         save.maxMPPots = player.GetComponent<PlayerScript>().maxMPPots;
 
         save.roundTowers = new List<string>();
+        save.darkTowers = new List<string>();
 
         foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
         {
@@ -129,6 +130,13 @@ public class FireScript : MonoBehaviour
                                  item.transform.position.x + " " +
                                  item.transform.position.y + " " +
                                  item.transform.position.z);
+        }
+
+        foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestThreeTag"))
+        {
+            save.darkTowers.Add(item.transform.position.x + " " +
+                                item.transform.position.y + " " +
+                                item.transform.position.z);
         }
 
         save.listNPC = new List<string>();
@@ -183,8 +191,7 @@ public class FireScript : MonoBehaviour
         bf.Serialize(file, save);
         file.Close();
 
-        player.GetComponent<PlayerScript>().hitPoints = player.GetComponent<PlayerScript>().maxHitPoints;
-        player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
+
 
         Debug.Log("Game Saved at: " + Application.persistentDataPath + "/gamesave.save");
     }
@@ -193,7 +200,20 @@ public class FireScript : MonoBehaviour
     {
         campfireMenu.SetActive(false);
         player.GetComponent<PlayerScript>().HPPots = player.GetComponent<PlayerScript>().maxHPPots;
-        player.GetComponent<PlayerScript>().MPPots = player.GetComponent<PlayerScript>().maxMPPots; 
+        player.GetComponent<PlayerScript>().MPPots = player.GetComponent<PlayerScript>().maxMPPots;
+        player.GetComponent<PlayerScript>().hitPoints = player.GetComponent<PlayerScript>().maxHitPoints;
+        player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
+        player.GetComponent<PlayerScript>().spawnPoint = player.transform.position;
+
+        foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundedTowerTag"))
+        {
+            item.GetComponentInChildren<RoundedTowerScript>().hitPoints = item.GetComponent<RoundedTowerScript>().maxHitPoints;
+        }
+
+        foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestThreeTag"))
+        {
+            item.GetComponent<DarkTowerScript>().hitPoints = item.GetComponent<DarkTowerScript>().maxHitPoints;
+        }
         GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = false;
         Time.timeScale = 1;
     }

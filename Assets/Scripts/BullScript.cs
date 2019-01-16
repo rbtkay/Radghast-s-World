@@ -50,6 +50,8 @@ public class BullScript : MonoBehaviour
 
     //Summon Pigs
     float timeSummonPig;
+
+    public double maxHitPoints, hitPoints;
     // Use this for initialization
     void Start()
     {
@@ -61,6 +63,9 @@ public class BullScript : MonoBehaviour
         timeBasicAttack = 0.0f;
         timeMultiBalls = 0.0f;
         timeSummonPig = 0.0f;
+
+        maxHitPoints = 1500;
+        hitPoints = maxHitPoints;
     }
 
     // Update is called once per frame

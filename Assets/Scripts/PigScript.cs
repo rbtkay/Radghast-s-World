@@ -11,7 +11,8 @@ public class PigScript : MonoBehaviour
     [SerializeField] GameObject pigBlood;
 
     [SerializeField] float distanceCharge;
-    float maxHitPoints, hitPoints;
+    float maxHitPoints;
+    public float hitPoints;
     public int damage;
     int soulReward;
     int focusReward;

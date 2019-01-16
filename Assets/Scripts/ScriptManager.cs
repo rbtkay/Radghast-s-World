@@ -61,6 +61,8 @@ public class ScriptManager : MonoBehaviour
             }
             npcTwo = GameObject.Instantiate(questTwo, questTwoPosition.transform.position, Quaternion.identity);
             gameState = State.inQuest;
+            interactionTwoCount = 0;
+            isInteractionTwoDone = false;
             currentQuest = 1;
         }
         else if (gameState == State.questTwo)
@@ -84,7 +86,7 @@ public class ScriptManager : MonoBehaviour
         }
         else if (gameState == State.sideQuest)
         {
-            chest = GameObject.Instantiate(chestPrefab, questThreePosition.transform.position, Quaternion.identity);
+            chest = GameObject.Instantiate(chestPrefab, sideQuestPosition.transform.position, Quaternion.identity);
             gameState = State.inQuest;
             currentQuest = 4;
         }
@@ -129,8 +131,8 @@ public class ScriptManager : MonoBehaviour
                     else if (interactionTwoCount == 1)
                     {
                         gameState = State.sideQuest;
+                        Debug.Log("interaction with quest 2");
                     }
-                    Debug.Log("interaction with quest 2");
                     interactionTwoCount++;
                 }
             }

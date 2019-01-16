@@ -13,8 +13,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
     public double maxHitPoints, hitPoints, hitPointsRegen;
-    public Sprite fullHPPot, halfHPPot, emptyHPPot, fullMPPot, halfMPPot, emptyMPPot;
     public double maxManaPoints, manaPoints, manaPointsRegen;
+    public Sprite fullHPPot, halfHPPot, emptyHPPot, fullMPPot, halfMPPot, emptyMPPot;
     public int maxHPPots, HPPots, maxMPPots, MPPots;
     public GameObject healthPotion, manaPotion;
     public double maxFocus;
@@ -95,6 +95,15 @@ public class PlayerScript : MonoBehaviour
             isFiring = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            UseHealthPotion();
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            UseManaPotion();
+        }
         // if (Input.GetAxis("Potion") == 1)
         // {
         //     UseHealthPotion();
@@ -295,6 +304,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (HPPots > 0 && hitPoints < maxHitPoints)
         {
+            HPPots -= 1;
             double amountToHeal = 0.3 * maxHitPoints;
             hitPoints += amountToHeal;
             if (hitPoints >= maxHitPoints)
@@ -306,13 +316,13 @@ public class PlayerScript : MonoBehaviour
     {
         if (MPPots > 0 && manaPoints < maxManaPoints)
         {
+            MPPots -= 1;
             double amountToHeal = 0.3 * maxManaPoints;
             manaPoints += amountToHeal;
             if (manaPoints >= maxManaPoints)
                 manaPoints = maxManaPoints;
         }
     }
-
     void FootR() { }
 
     void FootL() { }

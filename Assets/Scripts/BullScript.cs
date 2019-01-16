@@ -60,6 +60,8 @@ public class BullScript : MonoBehaviour
     bool isMoving;
     public GameObject pigPrefab;
     Vector3 destination;
+    public double maxHitPoints, hitPoints;
+
     // Use this for initialization
     void Start()
     {
@@ -70,6 +72,10 @@ public class BullScript : MonoBehaviour
         isBusy = false;
         timeBasicAttack = 0.0f;
         timeMultiBalls = 0.0f;
+        timeSummonPig = 0.0f;
+        maxHitPoints = 1500;
+        hitPoints = maxHitPoints;
+
     }
 
     // Update is called once per frame

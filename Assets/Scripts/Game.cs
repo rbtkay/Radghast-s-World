@@ -74,9 +74,20 @@ public class Game : MonoBehaviour
             FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
             Save save = (Save)bf.Deserialize(file);
             file.Close();
+
             player.transform.position = new Vector3(save.saveX, save.saveY, save.saveZ);
+            player.GetComponent<PlayerScript>().level = save.playerLevel;
+            player.GetComponent<PlayerScript>().maxHitPoints = 95 + player.GetComponent<PlayerScript>().level * 5;
+            player.GetComponent<PlayerScript>().hitPointsRegen = 0.15 + player.GetComponent<PlayerScript>().level * 0.05;
+            player.GetComponent<PlayerScript>().maxManaPoints = 95 + player.GetComponent<PlayerScript>().level * 5;
+            player.GetComponent<PlayerScript>().manaPointsRegen = 0.05 + player.GetComponent<PlayerScript>().level * 0.15;
+            player.GetComponent<PlayerScript>().damage = 8 + player.GetComponent<PlayerScript>().level * 2;
             player.GetComponent<PlayerScript>().hitPoints = player.GetComponent<PlayerScript>().maxHitPoints;
             player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
+            player.GetComponent<PlayerScript>().souls = save.playerSouls;
+            player.GetComponent<PlayerScript>().maxHPPots = save.maxHPPots;
+            player.GetComponent<PlayerScript>().maxMPPots = save.maxMPPots;
+            
 
             foreach (string item in save.roundTowers)
             {
@@ -100,6 +111,7 @@ public class Game : MonoBehaviour
                     temp.transform.GetChild(4).tag = "QuestOneTag";
                 }
             }
+
             Destroy(GameObject.FindGameObjectWithTag("npcTwoTag"));
             Destroy(GameObject.FindGameObjectWithTag("npcThreeTag"));
             Destroy(GameObject.FindGameObjectWithTag("ChestTag"));

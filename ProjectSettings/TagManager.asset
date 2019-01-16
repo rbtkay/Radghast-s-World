@@ -42,6 +42,8 @@ TagManager:
   - BtnLevelUpTag
   - BtnHealthTag
   - BtnManaTag
+  - ImgHealthPot
+  - ImgManaPot
   layers:
   - Default
   - TransparentFX

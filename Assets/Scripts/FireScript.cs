@@ -24,6 +24,36 @@ public class FireScript : MonoBehaviour
     void Update()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        lvlUpCost = player.GetComponent<PlayerScript>().level * 1;
+        upgradeHealthCost = player.GetComponent<PlayerScript>().maxHPPots * 2500;
+        upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
+        if (player.GetComponent<PlayerScript>().souls < lvlUpCost)
+        {
+            btnLvlUp.interactable = false;
+        }
+        else
+        {
+            btnLvlUp.interactable = true;
+        }
+
+        if (player.GetComponent<PlayerScript>().souls < upgradeHealthCost)
+        {
+            btnUpgradeHealth.interactable = false;
+        }
+        else
+        {
+            btnUpgradeHealth.interactable = true;
+        }
+
+        if (player.GetComponent<PlayerScript>().souls < upgradeManaCost)
+        {
+            btnUpgradeMana.interactable = false;
+        }
+        else
+        {
+            btnUpgradeMana.interactable = true;
+        }
+
         if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -32,9 +62,6 @@ public class FireScript : MonoBehaviour
                 isOn = true;
 
                 currentSouls = player.GetComponent<PlayerScript>().souls;
-                lvlUpCost = player.GetComponent<PlayerScript>().level * 1250;
-                upgradeHealthCost = player.GetComponent<PlayerScript>().level * 2500;
-                upgradeManaCost = player.GetComponent<PlayerScript>().level * 2500;
                 campfireMenu.SetActive(true);
                 btnUpgradeHealth.Select();
                 btnLvlUp.Select();
@@ -48,6 +75,16 @@ public class FireScript : MonoBehaviour
         }
     }
 
+    public void LevelUp()
+    {
+        player.GetComponent<PlayerScript>().level += 1;
+        player.GetComponent<PlayerScript>().maxHitPoints = 95 + player.GetComponent<PlayerScript>().level * 5;
+        player.GetComponent<PlayerScript>().hitPointsRegen = 0.15 + player.GetComponent<PlayerScript>().level * 0.05;
+        player.GetComponent<PlayerScript>().maxManaPoints = 95 + player.GetComponent<PlayerScript>().level * 5;
+        player.GetComponent<PlayerScript>().manaPointsRegen = 0.05 + player.GetComponent<PlayerScript>().level * 0.15;
+        player.GetComponent<PlayerScript>().damage = 8 + player.GetComponent<PlayerScript>().level * 2;
+        player.GetComponent<PlayerScript>().souls -= lvlUpCost;
+    }
 
     private Save CreateSaveGameObject()
     {
@@ -62,6 +99,13 @@ public class FireScript : MonoBehaviour
         save.saveX = player.transform.position.x;
         save.saveY = player.transform.position.y;
         save.saveZ = player.transform.position.z;
+
+        save.playerLevel = player.GetComponent<PlayerScript>().level;
+
+        save.playerSouls = player.GetComponent<PlayerScript>().souls;
+
+        save.maxHPPots = player.GetComponent<PlayerScript>().maxHPPots;
+        save.maxMPPots = player.GetComponent<PlayerScript>().maxMPPots;
 
         save.roundTowers = new List<string>();
 
@@ -99,6 +143,7 @@ public class FireScript : MonoBehaviour
             default:
                 break;
         }
+
         // on load : destroy all npcs and let gamestate decide which to create
         // if (GameObject.FindGameObjectWithTag("npcTwoTag").GetComponent<QuestTwoScript>().isActive)
         // {
@@ -124,13 +169,16 @@ public class FireScript : MonoBehaviour
         bf.Serialize(file, save);
         file.Close();
 
+        player.GetComponent<PlayerScript>().hitPoints = player.GetComponent<PlayerScript>().maxHitPoints;
+        player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
+
         Debug.Log("Game Saved at: " + Application.persistentDataPath + "/gamesave.save");
     }
 
     public void Resume()
     {
         campfireMenu.SetActive(false);
-        GameObject.FindGameObjectWithTag("Game").GetComponent<Game>().isPaused = false;
+        GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = false;
         Time.timeScale = 1;
     }
 }

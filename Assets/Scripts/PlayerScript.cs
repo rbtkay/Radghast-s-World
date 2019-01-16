@@ -95,15 +95,15 @@ public class PlayerScript : MonoBehaviour
             isFiring = false;
         }
 
-        if (Input.GetAxis("Potion") == 1)
-        {
-            UseHealthPotion();
-        }
+        // if (Input.GetAxis("Potion") == 1)
+        // {
+        //     UseHealthPotion();
+        // }
 
-        if (Input.GetAxis("Potion") == -1)
-        {
-            UseManaPotion();
-        }
+        // if (Input.GetAxis("Potion") == -1)
+        // {
+        //     UseManaPotion();
+        // }
 
         if (Input.GetAxis("Fire1") == -1)
         {

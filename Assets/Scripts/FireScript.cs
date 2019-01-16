@@ -11,7 +11,7 @@ public class FireScript : MonoBehaviour
     [SerializeField] GameObject firePrefab, campfireMenu;
     [SerializeField] Button btnLvlUp, btnUpgradeHealth, btnUpgradeMana;
     bool isOn;
-    GameObject player;
+    public GameObject player;
     public GameObject Game;
     double currentSouls, lvlUpCost, upgradeHealthCost, upgradeManaCost;
 
@@ -53,11 +53,15 @@ public class FireScript : MonoBehaviour
         {
             btnUpgradeMana.interactable = true;
         }
+                        btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
+                btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
+                btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
 
         if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("SPACE");
                 GameObject fire = GameObject.Instantiate(firePrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
                 isOn = true;
 
@@ -65,9 +69,7 @@ public class FireScript : MonoBehaviour
                 campfireMenu.SetActive(true);
                 btnUpgradeHealth.Select();
                 btnLvlUp.Select();
-                btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
-                btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
-                btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
+
 
                 GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = true;
                 Time.timeScale = 0;

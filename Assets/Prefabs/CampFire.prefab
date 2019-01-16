@@ -247,4 +247,5 @@ MonoBehaviour:
   btnLvlUp: {fileID: 0}
   btnUpgradeHealth: {fileID: 0}
   btnUpgradeMana: {fileID: 0}
+  player: {fileID: 0}
   Game: {fileID: 0}

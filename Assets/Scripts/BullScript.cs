@@ -61,6 +61,10 @@ public class BullScript : MonoBehaviour
     public GameObject pigPrefab;
     Vector3 destination;
     public double maxHitPoints, hitPoints;
+    public bool isActive;
+
+    public GameObject wallPrefab;
+    GameObject wallPosition;
 
     // Use this for initialization
     void Start()
@@ -86,112 +90,122 @@ public class BullScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        wallPosition = GameObject.FindGameObjectWithTag("WallPositionTag");
 
-        if (!isBusy /* && !isMoving */)
+
+        if (isActive)
         {
-            transform.LookAt(player.transform.position);
-
-            float basicAttackPercentage = Random.Range(0.0f, 100.0f);
-            float multiPercentage = Random.Range(0.0f, 75.0f);
-            float shockWavePercentage = Random.Range(0.0f, 50.0f);
-            float spawnPigPercentage = Random.Range(0.0f, 25.0f);
-            switch (phase)
+            if (!isBusy /* && !isMoving */)
             {
-                case 1:
-                    if (Input.GetKeyDown(KeyCode.Q))
-                    {
-                        Debug.Log("basic " + basicAttackPercentage);
-                        Debug.Log("multi " + multiPercentage);
-                        if (basicAttackPercentage > multiPercentage)
-                        {
-                            BasicAttack();
-                        }
-                        else
-                        {
-                            multiBalls();
-                        }
-                    }
-                    break;
-                case 2:
-                    if (Input.GetKeyDown(KeyCode.Q))
-                    {
-                        Debug.Log("basic " + basicAttackPercentage);
-                        Debug.Log("multi " + multiPercentage);
-                        Debug.Log("shock " + shockWavePercentage);
-                        if (basicAttackPercentage > multiPercentage && basicAttackPercentage > shockWavePercentage)
-                        {
-                            BasicAttack();
-                        }
-                        else if (multiPercentage > basicAttackPercentage && multiPercentage > shockWavePercentage)
-                        {
-                            multiBalls();
-                        }
-                        else if (shockWavePercentage > basicAttackPercentage && shockWavePercentage > multiPercentage)
-                        {
-                            ShockWave();
-                        }
-                    }
-                    break;
-                case 3:
-                    if (Input.GetKeyDown(KeyCode.Q))
-                    {
-                        Debug.Log("basic " + basicAttackPercentage);
-                        Debug.Log("multi " + multiPercentage);
-                        Debug.Log("shock " + shockWavePercentage);
-                        Debug.Log("spawn " + spawnPigPercentage);
-                        if (basicAttackPercentage > multiPercentage && basicAttackPercentage > shockWavePercentage && basicAttackPercentage > spawnPigPercentage)
-                        {
-                            BasicAttack();
-                        }
-                        else if (multiPercentage > basicAttackPercentage && multiPercentage > shockWavePercentage && multiPercentage > spawnPigPercentage)
-                        {
-                            multiBalls();
-                        }
-                        else if (shockWavePercentage > basicAttackPercentage && shockWavePercentage > multiPercentage && shockWavePercentage > spawnPigPercentage)
-                        {
-                            ShockWave();
-                        }
-                        else if (spawnPigPercentage > basicAttackPercentage && spawnPigPercentage > multiPercentage && spawnPigPercentage > shockWavePercentage)
-                        {
-                            SummonPigs();
-                        }
-                    }
-                    break;
-                case 4:
+                transform.LookAt(player.transform.position);
 
-                    if (Input.GetKeyDown(KeyCode.Q))
-                    {
+                float basicAttackPercentage = Random.Range(0.0f, 100.0f);
+                float multiPercentage = Random.Range(0.0f, 75.0f);
+                float shockWavePercentage = Random.Range(0.0f, 50.0f);
+                float spawnPigPercentage = Random.Range(0.0f, 25.0f);
+                switch (phase)
+                {
+                    case 1:
+                        if (Input.GetKeyDown(KeyCode.Q))
+                        {
+                            Debug.Log("basic " + basicAttackPercentage);
+                            Debug.Log("multi " + multiPercentage);
+                            if (basicAttackPercentage > multiPercentage)
+                            {
+                                BasicAttack();
+                            }
+                            else
+                            {
+                                multiBalls();
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (Input.GetKeyDown(KeyCode.Q))
+                        {
+                            Debug.Log("basic " + basicAttackPercentage);
+                            Debug.Log("multi " + multiPercentage);
+                            Debug.Log("shock " + shockWavePercentage);
+                            if (basicAttackPercentage > multiPercentage && basicAttackPercentage > shockWavePercentage)
+                            {
+                                BasicAttack();
+                            }
+                            else if (multiPercentage > basicAttackPercentage && multiPercentage > shockWavePercentage)
+                            {
+                                multiBalls();
+                            }
+                            else if (shockWavePercentage > basicAttackPercentage && shockWavePercentage > multiPercentage)
+                            {
+                                ShockWave();
+                            }
+                        }
+                        break;
+                    case 3:
+                        if (Input.GetKeyDown(KeyCode.Q))
+                        {
+                            Debug.Log("basic " + basicAttackPercentage);
+                            Debug.Log("multi " + multiPercentage);
+                            Debug.Log("shock " + shockWavePercentage);
+                            Debug.Log("spawn " + spawnPigPercentage);
+                            if (basicAttackPercentage > multiPercentage && basicAttackPercentage > shockWavePercentage && basicAttackPercentage > spawnPigPercentage)
+                            {
+                                BasicAttack();
+                            }
+                            else if (multiPercentage > basicAttackPercentage && multiPercentage > shockWavePercentage && multiPercentage > spawnPigPercentage)
+                            {
+                                multiBalls();
+                            }
+                            else if (shockWavePercentage > basicAttackPercentage && shockWavePercentage > multiPercentage && shockWavePercentage > spawnPigPercentage)
+                            {
+                                ShockWave();
+                            }
+                            else if (spawnPigPercentage > basicAttackPercentage && spawnPigPercentage > multiPercentage && spawnPigPercentage > shockWavePercentage)
+                            {
+                                SummonPigs();
+                            }
+                        }
+                        break;
+                    case 4:
 
-                        BullMovement();
-                    }
-                    break;
-                default:
-                    bullAnimator.SetBool("idle", true);
-                    break;
+                        if (Input.GetKeyDown(KeyCode.Q))
+                        {
+
+                            BullMovement();
+                        }
+                        break;
+                    default:
+                        bullAnimator.SetBool("idle", true);
+                        break;
+                }
             }
+            else
+            {
+                isBusy = !CheckoutAnimationTime();
+            }
+
+            // if (isMoving)
+            // {
+            //     if (Vector3.Distance(transform.position, destination) < 1)
+            //     {
+
+            //     }
+
+            // }
+            // // bullAgent.SetDestination(player.transform.position);
+            // transform.LookAt(player.transform.position);
+            // if (Vector3.Distance(player.transform.position, transform.position) < 40 && !isCharging)
+            // {
+            //     // Debug.Log("in distance");
+
+            //     Charging(player.transform.position);
+            //     // isCharging = true;
+            // }
         }
-        else
+        else if (Vector3.Distance(player.transform.position, transform.position) < 20f)
         {
-            isBusy = !CheckoutAnimationTime();
+            isActive = true;
+            GameObject wall = GameObject.Instantiate(wallPrefab, wallPosition.transform.position, wallPosition.transform.rotation);
         }
-
-        // if (isMoving)
-        // {
-        //     if (Vector3.Distance(transform.position, destination) < 1)
-        //     {
-
-        //     }
-
-        // }
-        // // bullAgent.SetDestination(player.transform.position);
-        // transform.LookAt(player.transform.position);
-        // if (Vector3.Distance(player.transform.position, transform.position) < 40 && !isCharging)
-        // {
-        //     // Debug.Log("in distance");
-
-        //     Charging(player.transform.position);
-        //     // isCharging = true;
-        // }
     }
 
     void FollowMage(Vector3 playerPosition)

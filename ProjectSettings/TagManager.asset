@@ -48,6 +48,7 @@ TagManager:
   - BullTowerTag
   - BullTowerOneTag
   - BullTag
+  - WallPositionTag
   layers:
   - Default
   - TransparentFX

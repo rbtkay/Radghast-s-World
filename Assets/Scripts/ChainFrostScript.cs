@@ -10,15 +10,18 @@ public class ChainFrostScript : MonoBehaviour
     [SerializeField] float projectileLifeTime;
     float projectileBirth;
     PlayerScript playerScript;
+    int manaCost;
     // Start is called before the first frame update
     void Start()
     {
+        manaCost = 20;
         hitCount = 5;
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        playerScript.manaPoints -= manaCost;
         rbProjectile = GetComponent<Rigidbody>();
         rbProjectile.velocity = transform.forward * projectileSpeed;
         projectileBirth = Time.timeSinceLevelLoad;
-        damage = (int) (Random.Range((float)(playerScript.damage * 2.5) - 5, (float)(playerScript.damage * 2.5) + 5));
+        damage = (int)(Random.Range((float)(playerScript.damage * 2.5) - 5, (float)(playerScript.damage * 2.5) + 5));
     }
 
     // Update is called once per frame
@@ -56,5 +59,6 @@ public class ChainFrostScript : MonoBehaviour
             hitCount--;
             other.gameObject.GetComponent<BullScript>().hitPoints -= damage;
         }
+        rbProjectile.velocity = transform.forward * projectileSpeed;
     }
 }

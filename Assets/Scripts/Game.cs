@@ -11,11 +11,7 @@ public class Game : MonoBehaviour
     [SerializeField] GameObject menu;
     [SerializeField] Button btnResumeButton, btnNewGameButton;
     [SerializeField] GameObject spawnPoint;
-    public List<GameObject> savedRoundTowers, currentRoundTowers;
-    public GameObject[] originalRoundTowers;
-    public GameObject[] copyRoundTowers;
-    public List<int> currentRoundTowersIndex;
-    public GameObject roundTowerPrefab;
+    public GameObject roundTowerPrefab, darkTowerPrefab;
     public GameObject UI;
     GameObject player;
     public GameObject[] savePoints;
@@ -31,7 +27,6 @@ public class Game : MonoBehaviour
     {
         // Cursor.visible = false;
         QualitySettings.vSyncCount = 2;
-        copyRoundTowers = new GameObject[6];
     }
 
     void Update()
@@ -62,20 +57,23 @@ public class Game : MonoBehaviour
         if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
         {
             ClearEnemies();
-            currentRoundTowers = new List<GameObject>();
-            currentRoundTowersIndex = new List<int>();
             foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
             {
                 Destroy(item);
-                // currentRoundTowers.Add(item);
-                // currentRoundTowersIndex.Add(item.GetComponent<TowerIndexScript>().index);
             }
+
+            foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestThreeTag"))
+            {
+                Destroy(item);
+            }
+
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
             Save save = (Save)bf.Deserialize(file);
             file.Close();
 
             player.transform.position = new Vector3(save.saveX, save.saveY, save.saveZ);
+            player.GetComponent<PlayerScript>().spawnPoint = new Vector3(save.saveX, save.saveY, save.saveZ);
             player.GetComponent<PlayerScript>().level = save.playerLevel;
             player.GetComponent<PlayerScript>().maxHitPoints = 95 + player.GetComponent<PlayerScript>().level * 5;
             player.GetComponent<PlayerScript>().hitPointsRegen = 0.15 + player.GetComponent<PlayerScript>().level * 0.05;
@@ -112,6 +110,14 @@ public class Game : MonoBehaviour
                 {
                     temp.transform.GetChild(4).tag = "QuestOneTag";
                 }
+            }
+
+            foreach (string item in save.darkTowers)
+            {
+                GameObject temp = GameObject.Instantiate(darkTowerPrefab, new Vector3(float.Parse(item.Split(' ')[0]),
+                                                         float.Parse(item.Split(' ')[1]),
+                                                         float.Parse(item.Split(' ')[2])),
+                                                         Quaternion.identity);
             }
 
             Destroy(GameObject.FindGameObjectWithTag("npcTwoTag"));

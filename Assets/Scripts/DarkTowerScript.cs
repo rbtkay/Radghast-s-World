@@ -9,9 +9,12 @@ public class DarkTowerScript : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     GameObject bullet;
     float currentTime;
+    public float hitPoints, maxHitPoints;
     // Use this for initialization
     void Start()
     {
+        maxHitPoints = 250;
+        hitPoints = maxHitPoints;
         isActive = false;
         currentTime = Time.timeSinceLevelLoad;
     }

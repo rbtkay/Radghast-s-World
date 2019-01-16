@@ -13,8 +13,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRotation;
     public double maxHitPoints, hitPoints, hitPointsRegen;
-    public Sprite fullHPPot, halfHPPot, emptyHPPot, fullMPPot, halfMPPot, emptyMPPot;
     public double maxManaPoints, manaPoints, manaPointsRegen;
+    public Sprite fullHPPot, halfHPPot, emptyHPPot, fullMPPot, halfMPPot, emptyMPPot;
     public int maxHPPots, HPPots, maxMPPots, MPPots;
     public GameObject healthPotion, manaPotion;
     public double maxFocus;
@@ -323,6 +323,7 @@ public class PlayerScript : MonoBehaviour
                 manaPoints = maxManaPoints;
         }
     }
+    
     void FootR() { }
 
     void FootL() { }

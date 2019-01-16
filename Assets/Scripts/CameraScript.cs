@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-
     GameObject player;
     public Vector3 offset;
     float distance;

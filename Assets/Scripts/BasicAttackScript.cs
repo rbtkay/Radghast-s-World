@@ -5,7 +5,6 @@ using UnityEngine;
 public class BasicAttackScript : MonoBehaviour
 {
     [SerializeField] float projectileSpeed;
-    float damageValue;
     Rigidbody rbProjectile;
     float projectileBirth;
     [SerializeField] float projectileLifeTime;
@@ -35,6 +34,25 @@ public class BasicAttackScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        if (other.gameObject.tag == "PigTag")
+        {
+            other.gameObject.GetComponent<PigScript>().hitPoints -= damage;
+        }
+
+        else if (other.gameObject.tag == "QuestOneTag" || other.gameObject.tag == "QuestTwoTag")
+        {
+            other.gameObject.GetComponent<RoundedTowerScript>().hitPoints -= damage;
+        }
+
+        else if (other.gameObject.tag == "QuestThreeTag")
+        {
+            other.gameObject.GetComponent<DarkTowerScript>().hitPoints -= damage;
+        }
+
+        else if (other.gameObject.tag == "BullTag")
+        {
+            other.gameObject.GetComponent<BullScript>().hitPoints -= damage;
+        }
         Destroy(gameObject);
     }
 }

@@ -87,6 +87,8 @@ public class Game : MonoBehaviour
             player.GetComponent<PlayerScript>().souls = save.playerSouls;
             player.GetComponent<PlayerScript>().maxHPPots = save.maxHPPots;
             player.GetComponent<PlayerScript>().maxMPPots = save.maxMPPots;
+            player.GetComponent<PlayerScript>().HPPots = player.GetComponent<PlayerScript>().maxHPPots;
+            player.GetComponent<PlayerScript>().MPPots = player.GetComponent<PlayerScript>().maxMPPots;
             
 
             foreach (string item in save.roundTowers)

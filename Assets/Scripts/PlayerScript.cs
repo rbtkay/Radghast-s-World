@@ -95,6 +95,15 @@ public class PlayerScript : MonoBehaviour
             isFiring = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            UseHealthPotion();
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            UseManaPotion();
+        }
         // if (Input.GetAxis("Potion") == 1)
         // {
         //     UseHealthPotion();
@@ -295,6 +304,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (HPPots > 0 && hitPoints < maxHitPoints)
         {
+            HPPots -= 1;
             double amountToHeal = 0.3 * maxHitPoints;
             hitPoints += amountToHeal;
             if (hitPoints >= maxHitPoints)
@@ -306,6 +316,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (MPPots > 0 && manaPoints < maxManaPoints)
         {
+            MPPots -= 1;
             double amountToHeal = 0.3 * maxManaPoints;
             manaPoints += amountToHeal;
             if (manaPoints >= maxManaPoints)

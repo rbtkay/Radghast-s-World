@@ -312,6 +312,7 @@ public class PlayerScript : MonoBehaviour
                 manaPoints = maxManaPoints;
         }
     }
+
     void FootR() { }
 
     void FootL() { }

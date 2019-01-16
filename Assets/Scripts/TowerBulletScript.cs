@@ -15,13 +15,15 @@ public class TowerBulletScript : MonoBehaviour
         destination = GameObject.FindGameObjectWithTag("Player").transform.position;
         terrain = GameObject.FindGameObjectWithTag("MainWorldTag");
         Physics.IgnoreCollision(GetComponent<Collider>(), terrain.GetComponent<Collider>());
+        // transform.position = Vector3.MoveTowards(transform.position, destination, bulletSpeed * Time.deltaTime);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, destination, bulletSpeed * Time.deltaTime);
-        if (transform.position.y <= 0.5f)
+        if (transform.position.y <= 0.3f)
         {
             Explode();
             Destroy(gameObject);
@@ -30,7 +32,8 @@ public class TowerBulletScript : MonoBehaviour
 
     void Explode()
     {
-       /*  GameObject boom = */ GameObject.Instantiate(particleSystem, transform.position, Quaternion.identity);
+        /*  GameObject boom = */
+        GameObject.Instantiate(particleSystem, transform.position, Quaternion.identity);
         // boom.GetComponent<ParticleSystem>().Play();
     }
 

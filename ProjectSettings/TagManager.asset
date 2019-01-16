@@ -45,6 +45,9 @@ TagManager:
   - BtnManaTag
   - ImgHealthPot
   - ImgManaPot
+  - BullTowerTag
+  - BullTowerOneTag
+  - BullTag
   layers:
   - Default
   - TransparentFX

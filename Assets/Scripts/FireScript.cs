@@ -23,56 +23,60 @@ public class FireScript : MonoBehaviour
     }
     void Update()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        lvlUpCost = player.GetComponent<PlayerScript>().level * 1;
-        upgradeHealthCost = player.GetComponent<PlayerScript>().maxHPPots * 2500;
-        upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
-        if (player.GetComponent<PlayerScript>().souls < lvlUpCost)
+        if (GameObject.FindGameObjectWithTag("Player"))
         {
-            btnLvlUp.interactable = false;
-        }
-        else
-        {
-            btnLvlUp.interactable = true;
-        }
 
-        if (player.GetComponent<PlayerScript>().souls < upgradeHealthCost)
-        {
-            btnUpgradeHealth.interactable = false;
-        }
-        else
-        {
-            btnUpgradeHealth.interactable = true;
-        }
-
-        if (player.GetComponent<PlayerScript>().souls < upgradeManaCost)
-        {
-            btnUpgradeMana.interactable = false;
-        }
-        else
-        {
-            btnUpgradeMana.interactable = true;
-        }
-                        btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
-                btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
-                btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
-
-        if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
+            player = GameObject.FindGameObjectWithTag("Player");
+            lvlUpCost = player.GetComponent<PlayerScript>().level * 1;
+            upgradeHealthCost = player.GetComponent<PlayerScript>().maxHPPots * 2500;
+            upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
+            if (player.GetComponent<PlayerScript>().souls < lvlUpCost)
             {
-                Debug.Log("SPACE");
-                GameObject fire = GameObject.Instantiate(firePrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
-                isOn = true;
+                btnLvlUp.interactable = false;
+            }
+            else
+            {
+                btnLvlUp.interactable = true;
+            }
 
-                currentSouls = player.GetComponent<PlayerScript>().souls;
-                campfireMenu.SetActive(true);
-                btnUpgradeHealth.Select();
-                btnLvlUp.Select();
+            if (player.GetComponent<PlayerScript>().souls < upgradeHealthCost)
+            {
+                btnUpgradeHealth.interactable = false;
+            }
+            else
+            {
+                btnUpgradeHealth.interactable = true;
+            }
+
+            if (player.GetComponent<PlayerScript>().souls < upgradeManaCost)
+            {
+                btnUpgradeMana.interactable = false;
+            }
+            else
+            {
+                btnUpgradeMana.interactable = true;
+            }
+            btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
+            btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
+            btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
+
+            if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Debug.Log("SPACE");
+                    GameObject fire = GameObject.Instantiate(firePrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+                    isOn = true;
+
+                    currentSouls = player.GetComponent<PlayerScript>().souls;
+                    campfireMenu.SetActive(true);
+                    btnUpgradeHealth.Select();
+                    btnLvlUp.Select();
 
 
-                GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = true;
-                Time.timeScale = 0;
+                    GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = true;
+                    Time.timeScale = 0;
+                }
             }
         }
     }

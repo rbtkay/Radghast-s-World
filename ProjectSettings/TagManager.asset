@@ -38,6 +38,7 @@ TagManager:
   - EscapeThreeTag
   - EscapeFourTag
   - OwlGuideTag
+  - ShockWaveTag
   - LevelTextTag
   - BtnLevelUpTag
   - BtnHealthTag

@@ -32,7 +32,6 @@ public class FireScript : MonoBehaviour
             upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
             if (player.GetComponent<PlayerScript>().souls < lvlUpCost)
             {
-                // btnResume.Select();
                 btnLvlUp.interactable = false;
             }
             else
@@ -42,7 +41,6 @@ public class FireScript : MonoBehaviour
 
             if (player.GetComponent<PlayerScript>().souls < upgradeHealthCost)
             {
-                // btnResume.Select();
                 btnUpgradeHealth.interactable = false;
             }
             else
@@ -52,7 +50,6 @@ public class FireScript : MonoBehaviour
 
             if (player.GetComponent<PlayerScript>().souls < upgradeManaCost)
             {
-                // btnResume.Select();
                 btnUpgradeMana.interactable = false;
             }
             else
@@ -94,18 +91,21 @@ public class FireScript : MonoBehaviour
         player.GetComponent<PlayerScript>().manaPointsRegen = 0.05 + player.GetComponent<PlayerScript>().level * 0.15;
         player.GetComponent<PlayerScript>().damage = 8 + player.GetComponent<PlayerScript>().level * 2;
         player.GetComponent<PlayerScript>().souls -= lvlUpCost;
+        btnResume.Select();
     }
 
     public void UpgradeHealth()
     {
         player.GetComponent<PlayerScript>().maxHPPots += 1;
         player.GetComponent<PlayerScript>().souls -= upgradeHealthCost;
+        btnResume.Select();
     }
 
     public void UpgradeMana()
     {
         player.GetComponent<PlayerScript>().maxMPPots += 1;
         player.GetComponent<PlayerScript>().souls -= upgradeManaCost;
+        btnResume.Select();
     }
 
     private Save CreateSaveGameObject()

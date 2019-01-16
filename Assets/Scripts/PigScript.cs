@@ -111,11 +111,6 @@ public class PigScript : MonoBehaviour
         }
         else if (other.gameObject.tag == "BasicAttack")
         {
-            if (hitPoints > 0)
-            {
-                hitPoints -= other.gameObject.GetComponent<BasicAttackScript>().damage;
-                Debug.Log("HitPoints: " + hitPoints);
-            }
             if (hitPoints <= 0)
             {
                 Destroy(gameObject);

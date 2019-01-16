@@ -73,6 +73,7 @@ public class RoundedTowerScript : MonoBehaviour
                 hitPoints -= other.gameObject.GetComponent<BasicAttackScript>().damage;
                 if (hitPoints <= 0)
                 {
+                    player.GetComponent<PlayerScript>().souls += 500;
                     Destroy(transform.parent.gameObject);
                 }
             }

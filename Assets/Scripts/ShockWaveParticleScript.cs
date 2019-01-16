@@ -2,19 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShockWaveParticleScript : MonoBehaviour {
+public class ShockWaveParticleScript : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
 
-	private void OnParticleCollision(GameObject other) {
-		Debug.Log("Player is Touched");
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().hitPoints -= Random.Range(1, 2);
+    }
 }

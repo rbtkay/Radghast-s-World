@@ -86,6 +86,10 @@ public class BullScript : MonoBehaviour
     void Update()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (hitPoints < 0)
+        {
+            Destroy(gameObject);
+        }
         wallPosition = GameObject.FindGameObjectWithTag("WallPositionTag");
 
 

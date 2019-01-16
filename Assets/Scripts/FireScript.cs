@@ -53,13 +53,13 @@ public class FireScript : MonoBehaviour
         {
             btnUpgradeMana.interactable = true;
         }
-                        btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
-                btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
-                btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
+        btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
+        btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
+        btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
 
         if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 Debug.Log("SPACE");
                 GameObject fire = GameObject.Instantiate(firePrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
@@ -86,6 +86,18 @@ public class FireScript : MonoBehaviour
         player.GetComponent<PlayerScript>().manaPointsRegen = 0.05 + player.GetComponent<PlayerScript>().level * 0.15;
         player.GetComponent<PlayerScript>().damage = 8 + player.GetComponent<PlayerScript>().level * 2;
         player.GetComponent<PlayerScript>().souls -= lvlUpCost;
+    }
+
+    public void UpgradeHealth()
+    {
+        player.GetComponent<PlayerScript>().maxHPPots += 1;
+        player.GetComponent<PlayerScript>().souls -= upgradeHealthCost;
+    }
+
+    public void UpgradeMana()
+    {
+        player.GetComponent<PlayerScript>().maxMPPots += 1;
+        player.GetComponent<PlayerScript>().souls -= upgradeManaCost;
     }
 
     private Save CreateSaveGameObject()
@@ -180,6 +192,8 @@ public class FireScript : MonoBehaviour
     public void Resume()
     {
         campfireMenu.SetActive(false);
+        player.GetComponent<PlayerScript>().HPPots = player.GetComponent<PlayerScript>().maxHPPots;
+        player.GetComponent<PlayerScript>().MPPots = player.GetComponent<PlayerScript>().maxMPPots; 
         GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = false;
         Time.timeScale = 1;
     }

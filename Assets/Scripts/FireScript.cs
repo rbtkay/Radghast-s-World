@@ -9,7 +9,7 @@ public class FireScript : MonoBehaviour
 {
     [SerializeField] float distanceSave;
     [SerializeField] GameObject firePrefab, campfireMenu;
-    [SerializeField] Button btnLvlUp, btnUpgradeHealth, btnUpgradeMana;
+    [SerializeField] Button btnLvlUp, btnUpgradeHealth, btnUpgradeMana, btnSave, btnResume;
     bool isOn;
     public GameObject player;
     public GameObject Game;
@@ -32,6 +32,7 @@ public class FireScript : MonoBehaviour
             upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
             if (player.GetComponent<PlayerScript>().souls < lvlUpCost)
             {
+                // btnResume.Select();
                 btnLvlUp.interactable = false;
             }
             else
@@ -41,6 +42,7 @@ public class FireScript : MonoBehaviour
 
             if (player.GetComponent<PlayerScript>().souls < upgradeHealthCost)
             {
+                // btnResume.Select();
                 btnUpgradeHealth.interactable = false;
             }
             else
@@ -48,24 +50,24 @@ public class FireScript : MonoBehaviour
                 btnUpgradeHealth.interactable = true;
             }
 
-       
-        if (player.GetComponent<PlayerScript>().souls < upgradeManaCost)
-        {
-            btnUpgradeMana.interactable = false;
-        }
-        else
-        {
-            btnUpgradeMana.interactable = true;
-        }
-        btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
-        btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
-        btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
-
-        if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-
+            if (player.GetComponent<PlayerScript>().souls < upgradeManaCost)
             {
+                // btnResume.Select();
+                btnUpgradeMana.interactable = false;
+            }
+            else
+            {
+                btnUpgradeMana.interactable = true;
+            }
+            btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
+            btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
+            btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
+
+            if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
+            {
+                if (Input.GetKeyDown(KeyCode.Return))
+
+                {
                     Debug.Log("SPACE");
                     GameObject fire = GameObject.Instantiate(firePrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
                     isOn = true;
@@ -211,9 +213,9 @@ public class FireScript : MonoBehaviour
         player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
         player.GetComponent<PlayerScript>().spawnPoint = player.transform.position;
 
-        foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundedTowerTag"))
+        foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
         {
-            item.GetComponentInChildren<RoundedTowerScript>().hitPoints = item.GetComponent<RoundedTowerScript>().maxHitPoints;
+            item.GetComponentInChildren<RoundedTowerScript>().hitPoints = item.GetComponentInChildren<RoundedTowerScript>().maxHitPoints;
         }
 
         foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestThreeTag"))

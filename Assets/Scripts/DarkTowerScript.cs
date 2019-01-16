@@ -23,6 +23,11 @@ public class DarkTowerScript : MonoBehaviour
     void Update()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        if (hitPoints < 0)
+        {
+            player.GetComponent<PlayerScript>().souls += 500;
+            Destroy(gameObject);
+        }
         if (isActive)
         {
             if (Vector3.Distance(player.transform.position, transform.position) < 40 && (Time.timeSinceLevelLoad - currentTime > 2))

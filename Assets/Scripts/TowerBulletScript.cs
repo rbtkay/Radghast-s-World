@@ -7,16 +7,16 @@ public class TowerBulletScript : MonoBehaviour
     [SerializeField] float bulletSpeed;
     Vector3 destination;
     GameObject terrain;
+    float damage;
     public ParticleSystem particleSystem;
     // Use this for initialization
     void Start()
     {
-
+        damage = Random.Range(15, 25);
         destination = GameObject.FindGameObjectWithTag("Player").transform.position;
         terrain = GameObject.FindGameObjectWithTag("MainWorldTag");
         Physics.IgnoreCollision(GetComponent<Collider>(), terrain.GetComponent<Collider>());
         // transform.position = Vector3.MoveTowards(transform.position, destination, bulletSpeed * Time.deltaTime);
-
     }
 
     // Update is called once per frame
@@ -41,6 +41,7 @@ public class TowerBulletScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            other.gameObject.GetComponent<PlayerScript>().hitPoints -= damage;
             Destroy(gameObject);
         }
     }

@@ -9,7 +9,7 @@ public class FireScript : MonoBehaviour
 {
     [SerializeField] float distanceSave;
     [SerializeField] GameObject firePrefab, campfireMenu;
-    [SerializeField] Button btnLvlUp, btnUpgradeHealth, btnUpgradeMana, btnSave, btnResume;
+    [SerializeField] Button btnLvlUp, btnUpgradeHealth, btnUpgradeMana;
     bool isOn;
     public GameObject player;
     public GameObject Game;
@@ -23,10 +23,9 @@ public class FireScript : MonoBehaviour
     }
     void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         if (GameObject.FindGameObjectWithTag("Player"))
         {
-
-            player = GameObject.FindGameObjectWithTag("Player");
             lvlUpCost = player.GetComponent<PlayerScript>().level * 1;
             upgradeHealthCost = player.GetComponent<PlayerScript>().maxHPPots * 2500;
             upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
@@ -56,14 +55,14 @@ public class FireScript : MonoBehaviour
             {
                 btnUpgradeMana.interactable = true;
             }
+
             btnLvlUp.GetComponentInChildren<Text>().text = "Level Up\n\n (" + lvlUpCost + " Souls)";
             btnUpgradeHealth.GetComponentInChildren<Text>().text = "Upgrade HP Potion\n\n (" + (int)(upgradeHealthCost) + " Souls)";
             btnUpgradeMana.GetComponentInChildren<Text>().text = "Upgrade MP Potion\n\n (" + (int)(upgradeManaCost) + " Souls)";
 
             if (Vector3.Distance(player.transform.position, transform.position) < distanceSave)
             {
-                if (Input.GetKeyDown(KeyCode.Return))
-
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     Debug.Log("SPACE");
                     GameObject fire = GameObject.Instantiate(firePrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
@@ -91,21 +90,6 @@ public class FireScript : MonoBehaviour
         player.GetComponent<PlayerScript>().manaPointsRegen = 0.05 + player.GetComponent<PlayerScript>().level * 0.15;
         player.GetComponent<PlayerScript>().damage = 8 + player.GetComponent<PlayerScript>().level * 2;
         player.GetComponent<PlayerScript>().souls -= lvlUpCost;
-        btnResume.Select();
-    }
-
-    public void UpgradeHealth()
-    {
-        player.GetComponent<PlayerScript>().maxHPPots += 1;
-        player.GetComponent<PlayerScript>().souls -= upgradeHealthCost;
-        btnResume.Select();
-    }
-
-    public void UpgradeMana()
-    {
-        player.GetComponent<PlayerScript>().maxMPPots += 1;
-        player.GetComponent<PlayerScript>().souls -= upgradeManaCost;
-        btnResume.Select();
     }
 
     private Save CreateSaveGameObject()
@@ -130,7 +114,6 @@ public class FireScript : MonoBehaviour
         save.maxMPPots = player.GetComponent<PlayerScript>().maxMPPots;
 
         save.roundTowers = new List<string>();
-        save.darkTowers = new List<string>();
 
         foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
         {
@@ -138,13 +121,6 @@ public class FireScript : MonoBehaviour
                                  item.transform.position.x + " " +
                                  item.transform.position.y + " " +
                                  item.transform.position.z);
-        }
-
-        foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestThreeTag"))
-        {
-            save.darkTowers.Add(item.transform.position.x + " " +
-                                item.transform.position.y + " " +
-                                item.transform.position.z);
         }
 
         save.listNPC = new List<string>();
@@ -199,7 +175,8 @@ public class FireScript : MonoBehaviour
         bf.Serialize(file, save);
         file.Close();
 
-
+        player.GetComponent<PlayerScript>().hitPoints = player.GetComponent<PlayerScript>().maxHitPoints;
+        player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
 
         Debug.Log("Game Saved at: " + Application.persistentDataPath + "/gamesave.save");
     }
@@ -207,21 +184,6 @@ public class FireScript : MonoBehaviour
     public void Resume()
     {
         campfireMenu.SetActive(false);
-        player.GetComponent<PlayerScript>().HPPots = player.GetComponent<PlayerScript>().maxHPPots;
-        player.GetComponent<PlayerScript>().MPPots = player.GetComponent<PlayerScript>().maxMPPots;
-        player.GetComponent<PlayerScript>().hitPoints = player.GetComponent<PlayerScript>().maxHitPoints;
-        player.GetComponent<PlayerScript>().manaPoints = player.GetComponent<PlayerScript>().maxManaPoints;
-        player.GetComponent<PlayerScript>().spawnPoint = player.transform.position;
-
-        foreach (GameObject item in GameObject.FindGameObjectsWithTag("RoundTowerTag"))
-        {
-            item.GetComponentInChildren<RoundedTowerScript>().hitPoints = item.GetComponentInChildren<RoundedTowerScript>().maxHitPoints;
-        }
-
-        foreach (GameObject item in GameObject.FindGameObjectsWithTag("QuestThreeTag"))
-        {
-            item.GetComponent<DarkTowerScript>().hitPoints = item.GetComponent<DarkTowerScript>().maxHitPoints;
-        }
         GameObject.FindGameObjectWithTag("GameTag").GetComponent<Game>().isPaused = false;
         Time.timeScale = 1;
     }

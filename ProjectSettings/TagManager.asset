@@ -49,6 +49,7 @@ TagManager:
   - BullTowerOneTag
   - BullTag
   - WallPositionTag
+  - FireTag
   layers:
   - Default
   - TransparentFX

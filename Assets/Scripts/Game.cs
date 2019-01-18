@@ -27,6 +27,10 @@ public class Game : MonoBehaviour
     {
         // Cursor.visible = false;
         QualitySettings.vSyncCount = 2;
+        if (!File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        {
+            GameObject.FindGameObjectWithTag("FireTag").GetComponent<FireScript>().SaveGame();
+        }
     }
 
     void Update()

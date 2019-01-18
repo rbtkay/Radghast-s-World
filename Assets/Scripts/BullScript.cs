@@ -62,9 +62,12 @@ public class BullScript : MonoBehaviour
     Vector3 destination;
     public double maxHitPoints, hitPoints;
     public bool isActive;
+    bool isWalking;
 
     public GameObject wallPrefab;
     GameObject wallPosition;
+
+    float timeShockWave;
 
     // Use this for initialization
     void Start()
@@ -78,6 +81,7 @@ public class BullScript : MonoBehaviour
         timeMultiBalls = 0.0f;
         timeSummonPig = 0.0f;
         maxHitPoints = 1500;
+        phase = 1;
         hitPoints = maxHitPoints;
 
     }
@@ -95,7 +99,8 @@ public class BullScript : MonoBehaviour
 
         if (isActive)
         {
-            if (!isBusy /* && !isMoving */)
+
+            if (!isBusy/* && !isMoving */)
             {
                 transform.LookAt(player.transform.position);
 
@@ -106,72 +111,27 @@ public class BullScript : MonoBehaviour
                 switch (phase)
                 {
                     case 1:
-                        if (Input.GetKeyDown(KeyCode.Q))
+                        transform.LookAt(player.transform.position);
+                        if (basicAttackPercentage > multiPercentage && basicAttackPercentage > shockWavePercentage && basicAttackPercentage > spawnPigPercentage)
                         {
-                            Debug.Log("basic " + basicAttackPercentage);
-                            Debug.Log("multi " + multiPercentage);
-                            if (basicAttackPercentage > multiPercentage)
-                            {
-                                BasicAttack();
-                            }
-                            else
-                            {
-                                multiBalls();
-                            }
+                            BasicAttack();
                         }
+                        else if (multiPercentage > basicAttackPercentage && multiPercentage > shockWavePercentage && multiPercentage > spawnPigPercentage)
+                        {
+                            multiBalls();
+                        }
+                        else if (shockWavePercentage > basicAttackPercentage && shockWavePercentage > multiPercentage && shockWavePercentage > spawnPigPercentage)
+                        {
+                            ShockWave();
+                        }
+                        else if (spawnPigPercentage > basicAttackPercentage && spawnPigPercentage > multiPercentage && spawnPigPercentage > shockWavePercentage)
+                        {
+                            SummonPigs();
+                        }
+                        phase = 2;
                         break;
                     case 2:
-                        if (Input.GetKeyDown(KeyCode.Q))
-                        {
-                            Debug.Log("basic " + basicAttackPercentage);
-                            Debug.Log("multi " + multiPercentage);
-                            Debug.Log("shock " + shockWavePercentage);
-                            if (basicAttackPercentage > multiPercentage && basicAttackPercentage > shockWavePercentage)
-                            {
-                                BasicAttack();
-                            }
-                            else if (multiPercentage > basicAttackPercentage && multiPercentage > shockWavePercentage)
-                            {
-                                multiBalls();
-                            }
-                            else if (shockWavePercentage > basicAttackPercentage && shockWavePercentage > multiPercentage)
-                            {
-                                ShockWave();
-                            }
-                        }
-                        break;
-                    case 3:
-                        if (Input.GetKeyDown(KeyCode.Q))
-                        {
-                            Debug.Log("basic " + basicAttackPercentage);
-                            Debug.Log("multi " + multiPercentage);
-                            Debug.Log("shock " + shockWavePercentage);
-                            Debug.Log("spawn " + spawnPigPercentage);
-                            if (basicAttackPercentage > multiPercentage && basicAttackPercentage > shockWavePercentage && basicAttackPercentage > spawnPigPercentage)
-                            {
-                                BasicAttack();
-                            }
-                            else if (multiPercentage > basicAttackPercentage && multiPercentage > shockWavePercentage && multiPercentage > spawnPigPercentage)
-                            {
-                                multiBalls();
-                            }
-                            else if (shockWavePercentage > basicAttackPercentage && shockWavePercentage > multiPercentage && shockWavePercentage > spawnPigPercentage)
-                            {
-                                ShockWave();
-                            }
-                            else if (spawnPigPercentage > basicAttackPercentage && spawnPigPercentage > multiPercentage && spawnPigPercentage > shockWavePercentage)
-                            {
-                                SummonPigs();
-                            }
-                        }
-                        break;
-                    case 4:
-
-                        if (Input.GetKeyDown(KeyCode.Q))
-                        {
-
-                            BullMovement();
-                        }
+                        BullMovement();
                         break;
                     default:
                         bullAnimator.SetBool("idle", true);
@@ -223,6 +183,7 @@ public class BullScript : MonoBehaviour
         destination = movementPositions[movementPosition].transform.position;
         transform.LookAt(destination);
         bullAgent.SetDestination(destination);
+        phase = 1;
         isBusy = true;
         isMoving = true;
     }
@@ -237,6 +198,7 @@ public class BullScript : MonoBehaviour
         bullAnimator.SetBool("run", true);
         timeCharge = Time.timeSinceLevelLoad;
         Debug.Log("Charging");
+        isWalking = false;
         // pigState = State.charging;
         isBusy = true;
     }
@@ -245,6 +207,7 @@ public class BullScript : MonoBehaviour
         timeBasicAttack = Time.timeSinceLevelLoad;
         bullAnimator.SetBool("attack_01", true);
         isBusy = true;
+        isWalking = false;
         Invoke("CastBasicAttack", 0.9f);
         // CastSpell();
     }
@@ -255,6 +218,8 @@ public class BullScript : MonoBehaviour
         timeMultiBalls = Time.timeSinceLevelLoad;
         bullAnimator.SetBool("attack_02", true);
         isBusy = true;
+        isWalking = false;
+
         Invoke("CastMultiBalls", 0.9f);
     }
 
@@ -263,6 +228,9 @@ public class BullScript : MonoBehaviour
         GameObject fire = GameObject.Instantiate(shockWave,
         new Vector3(transform.position.x + transform.forward.x, transform.position.y + transform.forward.y, +transform.position.z + transform.forward.z)
         , transform.rotation);
+        isWalking = false;
+        timeShockWave = Time.timeSinceLevelLoad;
+
     }
 
     void ClearAllBool()
@@ -307,10 +275,19 @@ public class BullScript : MonoBehaviour
 
             return true;
         }
+        if ((timeShockWave != 0.0f) && (Time.timeSinceLevelLoad - timeShockWave > 1.0f))
+        {
+            timeShockWave = 0.0f;
+            // bullBody.velocity = new Vector3(0, 0, 0);
+            ClearAllBool();
+
+            return true;
+        }
         if (isMoving && Vector3.Distance(transform.position, destination) < 1)
         {
             bullAgent.speed = 0.0f;
             ClearAllBool();
+            phase = 1;
             return true;
         }
         return false;
@@ -321,6 +298,8 @@ public class BullScript : MonoBehaviour
         timeSummonPig = Time.timeSinceLevelLoad;
         bullAnimator.SetBool("jump", true);
         isBusy = true;
+        isWalking = false;
+
         Invoke("CastSummonPig", 0.9f);
     }
 

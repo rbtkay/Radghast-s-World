@@ -18,6 +18,19 @@ public class IceBlockScript : MonoBehaviour
     void Update()
     {
         float life = Time.timeSinceLevelLoad - birthTime;
+        if (GameObject.FindGameObjectWithTag("BasicAttack"))
+        {
+            foreach (Collider col in gameObject.GetComponentsInChildren<Collider>())
+            {
+                Physics.IgnoreCollision(col, GameObject.FindGameObjectWithTag("BasicAttack").GetComponent<Collider>());
+            }
+        }
+
+        foreach (Collider col in gameObject.GetComponentsInChildren<Collider>())
+        {
+            Physics.IgnoreCollision(col, GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Collider>());
+        }
+
         if (life > lifeTime || hitPoints < 0)
         {
             Destroy(gameObject);

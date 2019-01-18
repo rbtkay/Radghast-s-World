@@ -104,7 +104,15 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            level += 1;
+        }
 
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            souls += 10000;
+        }
 
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -131,28 +139,28 @@ public class PlayerScript : MonoBehaviour
             {
                 BasicAttack();
             }
-            else if (Input.GetKeyDown(KeyCode.Joystick1Button2))
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button2) && manaPoints > 20 && level >= 3)
             {
                 ChainFrost();
             }
-            else if (Input.GetKeyDown(KeyCode.Joystick1Button1))
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button1) && manaPoints > 30 && level >= 7)
             {
                 Debug.Log("B");
                 IceBlock();
             }
-            else if (Input.GetKeyDown(KeyCode.Joystick1Button0))
+            else if (Input.GetKeyDown(KeyCode.Joystick1Button0) && manaPoints > 8 && level >= 5)
             {
                 Debug.Log("A");
                 Blink();
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button0) && !testingBool)
+        if (Input.GetKeyDown(KeyCode.P) && !testingBool)
         {
             testingBool = true;
         }
 
-        else if (Input.GetKeyDown(KeyCode.Joystick1Button0) && testingBool)
+        else if (Input.GetKeyDown(KeyCode.P) && testingBool)
         {
             testingBool = false;
         }

@@ -27,7 +27,7 @@ public class FireScript : MonoBehaviour
         {
 
             player = GameObject.FindGameObjectWithTag("Player");
-            lvlUpCost = player.GetComponent<PlayerScript>().level * 1;
+            lvlUpCost = player.GetComponent<PlayerScript>().level * 1250;
             upgradeHealthCost = player.GetComponent<PlayerScript>().maxHPPots * 2500;
             upgradeManaCost = player.GetComponent<PlayerScript>().maxMPPots * 2500;
             if (player.GetComponent<PlayerScript>().souls < lvlUpCost)

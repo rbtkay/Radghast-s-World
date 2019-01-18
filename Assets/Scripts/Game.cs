@@ -117,7 +117,7 @@ public class Game : MonoBehaviour
                 GameObject temp = GameObject.Instantiate(darkTowerPrefab, new Vector3(float.Parse(item.Split(' ')[0]),
                                                          float.Parse(item.Split(' ')[1]),
                                                          float.Parse(item.Split(' ')[2])),
-                                                         Quaternion.identity);
+                                                         darkTowerPrefab.transform.rotation);
             }
 
             Destroy(GameObject.FindGameObjectWithTag("npcTwoTag"));

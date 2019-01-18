@@ -19,6 +19,11 @@ public class ShockWaveParticleScript : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().hitPoints -= Random.Range(1, 2);
+        if (other.gameObject.tag == "Player")
+        {
+            other.GetComponent<PlayerScript>().hitPoints -= Random.Range(1, 2);
+
+        }
+
     }
 }

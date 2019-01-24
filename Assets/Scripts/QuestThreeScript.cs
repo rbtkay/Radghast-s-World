@@ -49,7 +49,8 @@ public class QuestThreeScript : MonoBehaviour
 
         npcAgent.SetDestination(escapeDestination);
         npcAnimator.SetBool("SprintJump", true);
-        npcAgent.speed = 0.01f;
+        npcAgent.speed = 5.0f;
+        Debug.Log(escapeCount);
     }
 
     void StopEscape()

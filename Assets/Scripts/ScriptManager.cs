@@ -106,7 +106,7 @@ public class ScriptManager : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("npcOneTag") != null && !isInteractionOneDone)
         {
-            if (Vector3.Distance(player.transform.position, npcOne.transform.position) < 10.0)
+            if (Vector3.Distance(player.transform.position, npcOne.transform.position) < 10.0f)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -119,7 +119,7 @@ public class ScriptManager : MonoBehaviour
 
         if (GameObject.FindGameObjectWithTag("npcTwoTag") != null && !isInteractionTwoDone)
         {
-            if (Vector3.Distance(player.transform.position, npcTwo.transform.position) < 10.0)
+            if (Vector3.Distance(player.transform.position, npcTwo.transform.position) < 10.0f)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -148,7 +148,7 @@ public class ScriptManager : MonoBehaviour
 
         if (GameObject.FindGameObjectWithTag("npcThreeTag") != null && !isInteractionThreeDone)
         {
-            if (Vector3.Distance(player.transform.position, npcThree.transform.position) < 10.0)
+            if (Vector3.Distance(player.transform.position, npcThree.transform.position) < 10.0f)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -161,7 +161,7 @@ public class ScriptManager : MonoBehaviour
 
         if (GameObject.FindGameObjectWithTag("ChestTag") != null && !isInteractionChestDone)
         {
-            if (Vector3.Distance(player.transform.position, chest.transform.position) < 10.0)
+            if (Vector3.Distance(player.transform.position, chest.transform.position) < 10.0f)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {

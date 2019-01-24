@@ -45,7 +45,7 @@ public class PigScript : MonoBehaviour
 
         pigAnimator = GetComponent<Animator>();
         pigAgent = GetComponent<NavMeshAgent>();
-        pigBody = GetComponent<Rigidbody>();
+        pigBody = GetComponentInChildren<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
         chargeTime = 0f;
 
@@ -89,7 +89,7 @@ public class PigScript : MonoBehaviour
     void Charging()
     {
         pigBody.velocity = transform.forward * 50;
-        pigAnimator.SetFloat("a", 1.5f);
+        // pigAnimator.SetFloat("a", 1.5f);
         pigState = State.charging;
         isCharging = false;
         chargeTime = Time.timeSinceLevelLoad;
@@ -106,7 +106,7 @@ public class PigScript : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             pigBody.velocity = new Vector3(0, 0, 0);
-            transform.LookAt(player.transform.position);
+            // transform.LookAt(player.transform.position);
             // isCharging = false;
         }
         else if (other.gameObject.tag == "BasicAttack")

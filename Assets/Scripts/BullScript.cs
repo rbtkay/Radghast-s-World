@@ -62,7 +62,6 @@ public class BullScript : MonoBehaviour
     Vector3 destination;
     public double maxHitPoints, hitPoints;
     public bool isActive;
-    bool isWalking;
 
     public GameObject wallPrefab;
     GameObject wallPosition;
@@ -108,6 +107,10 @@ public class BullScript : MonoBehaviour
                 float multiPercentage = Random.Range(0.0f, 75.0f);
                 float shockWavePercentage = Random.Range(0.0f, 50.0f);
                 float spawnPigPercentage = Random.Range(0.0f, 25.0f);
+
+
+                // phase = 1;
+
                 switch (phase)
                 {
                     case 1:
@@ -128,17 +131,20 @@ public class BullScript : MonoBehaviour
                         {
                             SummonPigs();
                         }
-                        phase = 2;
+                        // phase = 2;
+                        Debug.Log("in case 1");
                         break;
                     case 2:
                         BullMovement();
+                        // phase = 1;
+                        Debug.Log("in case 2");
                         break;
                     default:
                         bullAnimator.SetBool("idle", true);
                         break;
                 }
             }
-            else
+            else if (phase == 2)
             {
                 isBusy = !CheckoutAnimationTime();
             }
@@ -179,35 +185,37 @@ public class BullScript : MonoBehaviour
     {
         bullAnimator.SetBool("walk", true);
         bullAgent.speed = 10f;
-        int movementPosition = Random.Range(1, 3);
-        destination = movementPositions[movementPosition].transform.position;
+
+        do
+        {
+            int movementPosition = Random.Range(0, 3);
+            destination = movementPositions[movementPosition].transform.position;
+        }
+        while (Vector3.Distance(transform.position, destination) < 0.5);
+
         transform.LookAt(destination);
         bullAgent.SetDestination(destination);
-        phase = 1;
         isBusy = true;
-        isMoving = true;
     }
 
-    void Charging(Vector3 playerPosition)
-    {
-        // bullAgent.isStopped = true;
-        // transform.position = Vector3.MoveTowards(transform.position, playerPosition, bullSpeed * Time.deltaTime);
-        // bullAnimator.SetBool("Run", true);
-        transform.LookAt(playerPosition);
-        bullBody.velocity = transform.forward * 50;
-        bullAnimator.SetBool("run", true);
-        timeCharge = Time.timeSinceLevelLoad;
-        Debug.Log("Charging");
-        isWalking = false;
-        // pigState = State.charging;
-        isBusy = true;
-    }
+    // void Charging(Vector3 playerPosition)
+    // {
+    //     // bullAgent.isStopped = true;
+    //     // transform.position = Vector3.MoveTowards(transform.position, playerPosition, bullSpeed * Time.deltaTime);
+    //     // bullAnimator.SetBool("Run", true);
+    //     transform.LookAt(playerPosition);
+    //     bullBody.velocity = transform.forward * 50;
+    //     bullAnimator.SetBool("run", true);
+    //     timeCharge = Time.timeSinceLevelLoad;
+    //     Debug.Log("Charging");
+    //     // pigState = State.charging;
+    //     isBusy = true;
+    // }
     void BasicAttack()
     {
         timeBasicAttack = Time.timeSinceLevelLoad;
         bullAnimator.SetBool("attack_01", true);
         isBusy = true;
-        isWalking = false;
         Invoke("CastBasicAttack", 0.9f);
         // CastSpell();
     }
@@ -218,8 +226,6 @@ public class BullScript : MonoBehaviour
         timeMultiBalls = Time.timeSinceLevelLoad;
         bullAnimator.SetBool("attack_02", true);
         isBusy = true;
-        isWalking = false;
-
         Invoke("CastMultiBalls", 0.9f);
     }
 
@@ -228,9 +234,10 @@ public class BullScript : MonoBehaviour
         GameObject fire = GameObject.Instantiate(shockWave,
         new Vector3(transform.position.x + transform.forward.x, transform.position.y + transform.forward.y, +transform.position.z + transform.forward.z)
         , transform.rotation);
-        isWalking = false;
         timeShockWave = Time.timeSinceLevelLoad;
-
+        bullAnimator.SetBool("attack_03", true);
+        isBusy = true;
+        Invoke("RefreshBull", 1.0f);
     }
 
     void ClearAllBool()
@@ -252,38 +259,38 @@ public class BullScript : MonoBehaviour
 
     bool CheckoutAnimationTime()
     {
-        if ((timeBasicAttack != 0.0f) && (Time.timeSinceLevelLoad - timeBasicAttack > 1.0f))
-        {
-            timeBasicAttack = 0.0f;
-            ClearAllBool();
-            // bullBody.velocity = new Vector3(0,0,0);
-            return true;
-        }
-        if ((timeMultiBalls != 0.0f) && (Time.timeSinceLevelLoad - timeMultiBalls > 1.0f))
-        {
-            timeMultiBalls = 0.0f;
-            // bullBody.velocity = new Vector3(0, 0, 0);
-            ClearAllBool();
+        // if ((timeBasicAttack != 0.0f) && (Time.timeSinceLevelLoad - timeBasicAttack > 1.0f))
+        // {
+        //     timeBasicAttack = 0.0f;
+        //     ClearAllBool();
+        //     // bullBody.velocity = new Vector3(0,0,0);
+        //     return true;
+        // }
+        // if ((timeMultiBalls != 0.0f) && (Time.timeSinceLevelLoad - timeMultiBalls > 1.0f))
+        // {
+        //     timeMultiBalls = 0.0f;
+        //     // bullBody.velocity = new Vector3(0, 0, 0);
+        //     ClearAllBool();
 
-            return true;
-        }
-        if ((timeSummonPig != 0.0f) && (Time.timeSinceLevelLoad - timeSummonPig > 1.0f))
-        {
-            timeSummonPig = 0.0f;
-            // bullBody.velocity = new Vector3(0, 0, 0);
-            ClearAllBool();
+        //     return true;
+        // }
+        // if ((timeSummonPig != 0.0f) && (Time.timeSinceLevelLoad - timeSummonPig > 1.0f))
+        // {
+        //     timeSummonPig = 0.0f;
+        //     // bullBody.velocity = new Vector3(0, 0, 0);
+        //     ClearAllBool();
 
-            return true;
-        }
-        if ((timeShockWave != 0.0f) && (Time.timeSinceLevelLoad - timeShockWave > 1.0f))
-        {
-            timeShockWave = 0.0f;
-            // bullBody.velocity = new Vector3(0, 0, 0);
-            ClearAllBool();
+        //     return true;
+        // }
+        // if ((timeShockWave != 0.0f) && (Time.timeSinceLevelLoad - timeShockWave > 1.0f))
+        // {
+        //     timeShockWave = 0.0f;
+        //     // bullBody.velocity = new Vector3(0, 0, 0);
+        //     ClearAllBool();
 
-            return true;
-        }
-        if (isMoving && Vector3.Distance(transform.position, destination) < 1)
+        //     return true;
+        // }
+        if (bullAgent.remainingDistance < 0.5)
         {
             bullAgent.speed = 0.0f;
             ClearAllBool();
@@ -298,8 +305,6 @@ public class BullScript : MonoBehaviour
         timeSummonPig = Time.timeSinceLevelLoad;
         bullAnimator.SetBool("jump", true);
         isBusy = true;
-        isWalking = false;
-
         Invoke("CastSummonPig", 0.9f);
     }
 
@@ -312,14 +317,22 @@ public class BullScript : MonoBehaviour
         GameObject pigTwo = GameObject.Instantiate(pigPrefab, summonPigPositionTwo.transform.position, Quaternion.identity);
         Physics.IgnoreCollision(pigOne.GetComponentInChildren<Collider>(), GameObject.FindGameObjectWithTag("BullTowerTag").GetComponent<Collider>());
         Physics.IgnoreCollision(pigTwo.GetComponentInChildren<Collider>(), GameObject.FindGameObjectWithTag("BullTowerOneTag").GetComponent<Collider>());
-        // GetComponentInChildren<Collider>(0);
-        //   GetComponent<Collider>());101
+
+        RefreshBull();
     }
 
     void CastBasicAttack()
     {
         Vector3 ballPosition = transform.position + transform.forward * 5f;
         GameObject basicAttack = GameObject.Instantiate(bulletPrefab, ballPosition + new Vector3(0, 5f, 0), transform.rotation);
+        RefreshBull();
+    }
+
+    private void RefreshBull()
+    {
+        ClearAllBool();
+        isBusy = false;
+        phase = 2;
     }
 
     void CastMultiBalls()
@@ -340,6 +353,8 @@ public class BullScript : MonoBehaviour
         Physics.IgnoreCollision(centerBall.GetComponent<Collider>(), bullBody.GetComponent<Collider>());
         Physics.IgnoreCollision(leftBall.GetComponent<Collider>(), bullBody.GetComponent<Collider>());
         Physics.IgnoreCollision(rightBall.GetComponent<Collider>(), bullBody.GetComponent<Collider>());
+
+        RefreshBull();
     }
 
 }
